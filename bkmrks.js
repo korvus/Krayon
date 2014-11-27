@@ -1,5 +1,17 @@
 /*  Bookmarks
 
+//https://bgrins.github.io/spectrum/
+
+//http://blogzinet.free.fr/blog/index.php?post/2013/05/17/Blocage-du-contenu-mixte-dans-Mozilla-Firefox-23-Aurora
+//https://davidsimpson.me/2013/10/10/how-to-allow-not-block-mixed-content-in-web-browsers/
+//https://bugzilla.mozilla.org/show_bug.cgi?id=886663
+// > https://bugzilla.mozilla.org/show_bug.cgi?id=866522
+// > https://bugzilla.mozilla.org/show_bug.cgi?id=1014545
+//https://www.eff.org/https-everywhere/
+//http://stackoverflow.com/questions/14367711/bookmarklet-on-https-page
+//http://content-security-policy.com/
+
+
 True : 
 javascript:var%20s%20=%20document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://annuaireblogbd.com/bkmrk/bkmrks.js';void(0);
 local : 
