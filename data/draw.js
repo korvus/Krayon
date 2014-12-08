@@ -110,15 +110,57 @@ function setGum(){
   modefusion = "destination-out";
 }
 
+function setForm(e){
+  initSoft();
+  var MultipleTools = document.querySelectorAll(".p5 span,.p4 a, .p6 a");
+  for(var MultipleTool of MultipleTools){
+    MultipleTool.classList.remove("active");
+    MultipleTool.classList.remove("on");
+  }
+  e.target.classList.add("active");
+  drawForm();
+}
+
+function setTxt(){
+  reinitxt();
+  var MultipleTools = document.querySelectorAll(".p4 a,.p5 span");
+  var allFonts = document.querySelectorAll(".p6 span");
+  for(var MultipleTool of MultipleTools){
+    MultipleTool.classList.remove("active");
+    MultipleTool.classList.remove("on");
+  }
+  for(var fontBT of allFonts){
+    fontBT.classList.remove("hide");
+  }
+  ABBDentertxt.classList.add("active");
+  var globalAddon = document.querySelector(".fwABBDcanvas");
+  globalAddon.classList.add("crosshairstyle");
+  nodraw = true;
+  drawing = false;
+  startDrawForms = false;
+  editingtxt = true;
+  createtextarea = true;
+  initTextarea(0,0);
+}
+
+/*
+function setCleanAll(){
+  $b(".ABBDtxtarea").remove();
+  clearAll(largeurcv,hauteurcv);
+}
+*/
 
 function runNext(){
 
-  ABBDbrushCanvas = document.getElementById("brush");
   ABBDcanvas = document.getElementById("fwABBDwindow");
+  ABBDbrushCanvas = document.getElementById("brush");
   ABBDbrush = document.getElementById("ABBDbrush");
   ABBDslider = document.getElementById("ABBDslider");
   ABBDcolorpicker = document.getElementById("colorpicker");
   ABBDgomme = document.getElementById("gomme");
+  ABBDforms = document.querySelectorAll(".p5 span");
+  ABBDentertxt = document.getElementById("entertext");
+  ABBDclean = document.getElementById("eraseall");
 
   hauteurcv = document.documentElement.scrollHeight;
   largeurcv = document.documentElement.scrollWidth;
@@ -132,39 +174,16 @@ function runNext(){
   window.addEventListener("resize", resizeCanvas, true);
   ABBDcolorpicker.addEventListener("change", setColors, true);
   ABBDgomme.addEventListener("click", setGum, true);
+  ABBDentertxt.addEventListener("click",setTxt, true)
+  ABBDclean.addEventListener("click",setCleanAll, true);
 
   inittools();
   
+  for(var ABBDform of ABBDforms){
+    ABBDform.addEventListener("click", setForm, true);
+  }
+
   /*
-
-  $b(".p5 span").click(function(e){
-      initSoft();
-      e.preventDefault();
-      $b(".p5 span,.p4 a, .p6 a").removeClass("active").removeClass("on");
-      $b(this).addClass("active");
-      nodraw = true;
-      drawForm();
-  })
-
-  $b("#entertext").click(function(e){
-      reinitxt();
-      $b(".p4 a,.p5 span").removeClass("active").removeClass("on");
-      $b(".p6 span").removeClass("hide");
-      $b(this).addClass("active");
-      $b(".fwABBDcanvas").addClass("crosshairstyle");
-      nodraw = true;
-      drawing = false;
-      startDrawForms = false;         
-      editingtxt = true;
-      createtextarea = true;
-      initTextarea(0,0);
-  })
-
-  $b("#eraseall").click(function(e){
-      e.preventDefault();
-      $b(".ABBDtxtarea").remove();
-      clearAll(largeurcv,hauteurcv);
-  })
 
   $b(".close").click(function(e){
       $b(".fwABBDcanvas").remove();
@@ -190,7 +209,6 @@ function initType(e){
     typeSelected.classList.add(e.target.usethisclass);
     type = (e.target.usethisclass == "crayon") ? "round" : "miter";
   }else{
-    console.log("end 1");
     typeSelected.classList.add("on");
   }
   typeSelected.removeEventListener("click", initType, false);
@@ -233,7 +251,8 @@ function reinitxt(){
 function initSoft(){
   //var canvas = document.getElementById("fwABBDwindow");
   if(document.getElementById("fwABBDwindowTemp")){
-    console.log(document.removeChild(tmpcanvas));
+    var CanvasTMP = document.getElementById("fwABBDwindowTemp");
+    CanvasTMP.parentNode.removeChild(CanvasTMP);
   }
   //var ctx = canvas.getContext("2d");
   //$("#fwABBDwindowTemp").remove();
@@ -290,7 +309,7 @@ function on_mousemove(e){
   ctx.lineTo(pos.x, pos.y);
   ctx.closePath();
   ctx.stroke();
- 
+
   lastpos = pos;
 }
 
@@ -399,133 +418,25 @@ function runthis(cssToLoad){
 
 }
 
-function toslide(){
-  console.log("in toslide");
-}
-
-/*
-(function(){
-
-function loadScript(url, callback){
-    var script = document.createElement("script")
-    script.type = "text/javascript";
-    if (script.readyState){  //IE
-        script.onreadystatechange = function(){
-            if (script.readyState == "loaded" ||
-                    script.readyState == "complete"){
-                script.onreadystatechange = null;
-                callback();
-            }
-        };
-    } else {  //Others
-        script.onload = function(){
-            callback();
-        };
-    }
-    script.src = url;
-    document.getElementsByTagName("head")[0].appendChild(script);
-}
-
-
-var isIE = !!window.ActiveXObject;
-if(isIE){
-    alert("Désolé, la technologie des canvas n'est pas supportÃ© sur votre navigateur :(");
-}else{
-    if(typeof jQuery == 'undefined'){
-        //includeJq();
-        loadScript("https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js", function(){
-            $b = jQuery.noConflict();
-            runthis();
-        });
-    }else{
-        //Si la version de jquery est infÃ©rieur a la 1.2.6., on la met en plus rÃ©cente
-        version = jQuery.fn.jquery;
-        unit = version.split('.');
-        var ok = 0;
-        if(unit[0]==1){
-            ok = 0;
-            if(unit[1]==2){//Si jquery v1.2. et infÃ©rieur
-                var ok = 1;
-                //includeJq();
-                loadScript("https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js", function(){
-                    $b = jQuery.noConflict(true);
-                    runthis();
-                });
-            }
-        }
-        if(ok == 0){
-            $b = jQuery.noConflict();
-            runthis();
-        }
-    }
-}
-
-
-//* Fonction canvas Paint *//*
-
-function clearAll(largeurCanvas,hauteurCanvas){
-    $b("#fwABBDwindow, #fwABBDwindowTemp").remove();
-    $b("#ABBDbrush").before('<canvas id="fwABBDwindow" width="'+largeurCanvas+'" height="'+hauteurCanvas+'"></canvas>');
-    init(largeurCanvas,hauteurCanvas);
-    if($b("#pencil").hasClass("active") == false && $b("#gomme").hasClass("active") == false){
-        nodraw = true;
-        if($b(".drawsquare").hasClass("active")==true){
-            drawForm();
-        }else if($b(".drawcircle").hasClass("active")==true){
-            drawForm();
-        }else if($b(".drawtrait").hasClass("active")==true){
-            drawForm();
-        }else if($b(".drawsquarempty").hasClass("active")==true){
-            drawForm();
-        }else if($b(".p6 span").hasClass("active")==true){
-            nodraw = true;
-            drawing = false;
-            startDrawForms = false;         
-            editingtxt = true;
-            createtextarea = true;
-            initTextarea(0,0);
-        }
-    }
-}
-
-
-function init(largeurCanvas,hauteurCanvas){
-  var canvas = document.getElementById("fwABBDwindow");
-  canvas.width=largeurCanvas;
-  canvas.height=hauteurCanvas;
-  var ctx = canvas.getContext("2d");
-  $b("#fwABBDwindowTemp").remove();
-
-    addEventListener("mousedown", on_mousedown, true);
-    addEventListener("mousemove", on_mousemove, true);
-    addEventListener("mouseup", on_mouseup, true);
-}
-
-function initSoftTxt(){
-  var canvas = document.getElementById("fwABBDwindow");
-  var ctx = canvas.getContext("2d");
-  $b("#fwABBDwindowTemp").remove();
-}
-
 function drawForm(){
-    var canvasRoot = document.getElementById("fwABBDwindow");
-    var container = canvasRoot.parentNode;
-    canvasTemp = document.createElement('canvas');
-    canvasTemp.id     = 'fwABBDwindowTemp';
-    canvasTemp.width  = canvasRoot.width;
-    canvasTemp.height = canvasRoot.height;
-    container.appendChild(canvasTemp);
+  var container = ABBDcanvas.parentNode;
+  canvasTemp = document.createElement('canvas');
+  canvasTemp.id     = 'fwABBDwindowTemp';
+  canvasTemp.width  = ABBDcanvas.width;
+  canvasTemp.height = ABBDcanvas.height;
+  container.appendChild(canvasTemp);
 
-    exa = $b(".cp div").css("background-color");
+  exa = ABBDcolorpicker.value;
 
-    canvasTemp.addEventListener("mousedown", startForm, true);
-    canvasTemp.addEventListener("mousemove", CalculForm, true);
-    canvasTemp.addEventListener("mouseup", EndForm, true);
-
+  canvasTemp.addEventListener("mousedown", startForm, true);
+  canvasTemp.addEventListener("mousemove", CalculForm, true);
+  canvasTemp.addEventListener("mouseup", EndForm, true);
 }
 
+
+// Pack Behavior for drawing forms
 function startForm(e){
-  if(editingtxt==false){startDrawForms = true;}else{startDrawForms = false;}
+  startDrawForms = (editingtxt==false) ? true : false;
   nodraw = true;
   eraser = false;
   drawing = false;
@@ -535,42 +446,46 @@ function startForm(e){
 }
 
 function CalculForm(e){
-    if(startDrawForms == true){
-        CurPos = transform_event_coord(e);
-        var canvasTp = document.getElementById("fwABBDwindowTemp");
-        var ctx = canvasTp.getContext("2d");
-        ctx.clearRect(0, 0, largeurcv, hauteurcv );
-        if($b(".drawsquare").hasClass("active")==true){
-            drawRectangle(firstPos,CurPos,ctx);
-        }else if($b(".drawcircle").hasClass("active")==true){
-            drawCircle(firstPos,CurPos,ctx);
-        }else if($b(".drawsquarempty").hasClass("active")==true){
-            drawRectanglempty(firstPos,CurPos,ctx);
-        }else{
-            drawLine(firstPos,CurPos,ctx);
-        }
-    }
+  if(startDrawForms == true){
+      CurPos = transform_event_coord(e);
+      var ctx = e.target.getContext("2d");
+
+      var BTdrawsquare = document.querySelector(".fwABBDconsol .drawsquare");
+      var BTdrawcircle = document.querySelector(".fwABBDconsol .drawcircle");
+      var BTdrawsquarempty = document.querySelector(".fwABBDconsol .drawsquarempty");
+
+      ctx.clearRect(0, 0, largeurcv, hauteurcv);
+      if(BTdrawsquare.classList.contains("active")){
+          drawRectangle(firstPos,CurPos,ctx);
+      }else if(BTdrawcircle.classList.contains("active")){
+          drawCircle(firstPos,CurPos,ctx);
+      }else if(BTdrawsquarempty.classList.contains("active")){
+          drawRectanglempty(firstPos,CurPos,ctx);
+      }else{
+          drawLine(firstPos,CurPos,ctx);
+      }
+  }
 }
 
 function EndForm(e){
-    var drawTemp = document.getElementById("fwABBDwindowTemp");
-    var canvasRoot = document.getElementById("fwABBDwindow").getContext("2d");
-    canvasRoot.globalCompositeOperation = "source-over";
-    startDrawForms = false;
-    nodraw = true;
-    canvasRoot.drawImage(drawTemp,0,0);
+  var canvasRoot = document.getElementById("fwABBDwindow").getContext("2d");
+  canvasRoot.globalCompositeOperation = "source-over";
+  startDrawForms = false;
+  nodraw = true;
+  canvasRoot.drawImage(e.target,0,0);
 }
+// End pack of Behavior for drawing forms
 
 function drawCircle(pntFrom, pntTo, ctx){
-    var centerX = Math.max(pntFrom.x,pntTo.x) - Math.abs(pntFrom.x - pntTo.x)/2;
-    var centerY = Math.max(pntFrom.y,pntTo.y) - Math.abs(pntFrom.y - pntTo.y)/2;
-    ctx.strokeStyle = exa;//couleur
-    ctx.fillStyle = exa;
-    ctx.beginPath();
-    var distance = Math.sqrt(Math.pow(pntFrom.x - pntTo.x,2) + Math.pow(pntFrom.y - pntTo.y,2));
-    ctx.arc(centerX, centerY, distance/2,0,Math.PI*2 ,true);
-    ctx.fill();
-    ctx.closePath();
+  var centerX = Math.max(pntFrom.x,pntTo.x) - Math.abs(pntFrom.x - pntTo.x)/2;
+  var centerY = Math.max(pntFrom.y,pntTo.y) - Math.abs(pntFrom.y - pntTo.y)/2;
+  ctx.strokeStyle = exa;//couleur
+  ctx.fillStyle = exa;
+  ctx.beginPath();
+  var distance = Math.sqrt(Math.pow(pntFrom.x - pntTo.x,2) + Math.pow(pntFrom.y - pntTo.y,2));
+  ctx.arc(centerX, centerY, distance/2,0,Math.PI*2 ,true);
+  ctx.fill();
+  ctx.closePath();
 }
 
 function drawRectangle(pntFrom, pntTo, ctx){
@@ -618,65 +533,192 @@ function drawLine(pntFrom, pntTo, ctx){
     ctx.closePath();
 }
 
+function initArial(e){
+  e.target.classList.add("active");
+  e.target.previousSibling.classList.remove("active");
+  ffamily = "Arial, sans-serif";
+  setFieldFocus;
+}
+
+function initTimes(e){
+  e.target.classList.add("active");
+  e.target.nextSibling.classList.remove("active");
+  ffamily = "Times, serif";
+  setFieldFocus;
+}
+
+function setFieldFocus(){
+  if(document.getElementById("thisActive")){
+    currentField = document.getElementById("thisActive");
+    currentField.style.fontFamily = ffamily;
+    currentField.focus();
+  }
+}
+
+function setTxtArea(e){
+  var pseudoTxtarea = document.createElement("div");
+  pseudoTxtarea.id = "ABBDenteringtxt";
+  pseudoTxtarea.classList.add("ABBDtxtarea");
+  consoleG = document.querySelector(".fwABBDcanvas");
+  consoleG.appendChild(pseudoTxtarea);
+  pseudoTxtarea.style.top = e.clientY+"px";
+  pseudoTxtarea.style.left = e.clientX+"px";
+  txtpntFromx = e.clientX;
+  txtpntFromy = e.clientY;
+  realCalculation = true;
+  createtextarea = false;
+  //initSoftTxt();
+  ABBDcanvas.removeEventListener("click", createTxtArea, false);
+  initTextarea(e.clientX, e.clientY);
+}
+
+function createTxtArea(e){
+  var pntTo = transform_event_coord(e);
+  //console.log((txtpntFromx-pntTo.x)+"-"+(txtpntFromy-pntTo.y));
+  var txtpntFromy = e.target.txtpntFromy;
+  var txtpntFromx = e.target.txtpntFromx;
+  var txtareaNode = document.getElementById("ABBDenteringtxt");
+  txtareaNode.style.width = (pntTo.x-txtpntFromx)+"px";
+  txtareaNode.style.height = (pntTo.y-txtpntFromy)+"px";
+}
+
+function finishTxtArea(e){
+  var ABBDpseudoTxtAra = document.getElementById("ABBDenteringtxt");
+  var globalAddon = document.querySelector(".fwABBDcanvas");
+
+  ABBDcanvas.removeEventListener("mousemove", createTxtArea, false);
+  ABBDcanvas.removeEventListener("mouseup", finishTxtArea, false);
+  realCalculation = false;
+  createtextarea = false;
+  editingtxt = true;
+
+  var txtawidth = ABBDpseudoTxtAra.offsetWidth;
+  var txtaheight = ABBDpseudoTxtAra.offsetHeight;
+  console.log(ABBDpseudoTxtAra);
+
+  //http://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
+  
+  var txtapos = ABBDpseudoTxtAra.getBoundingClientRect();
+  if(5>sizeBrush){sizeTxt=12;}else{sizeTxt=sizeBrush;}
+  var newTxtarea = document.createElement("textarea");
+  newTxtarea.id = "thisActive";
+  newTxtarea.classList.add("ABBDtxtarea");
+  newTxtarea.placeholder = "Entrez ici votre texte";
+  newTxtarea.style.cssText = 'width:'+txtawidth+'px !important;color:'+exa+';font-size:'+sizeTxt+'px;height:'+txtaheight+'px !important;top:'+txtapos.top+'px;left:'+txtapos.left+'px;';
+  ABBDpseudoTxtAra.parentNode.replaceChild(newTxtarea,ABBDpseudoTxtAra);
+  newTxtarea.focus;
+  globalAddon.classList.remove("crosshairstyle");
+  initTextarea(0,0);
+
+  ABBDcanvas.removeEventListener("mousemove", createTxtArea, false);
+  console.log("end finishTxtArea");
+}
+
+//Function calling herself each click /via createTxtArea
 function initTextarea(txtpntFromx,txtpntFromy){
+  console.log(txtpntFromx+" - "+txtpntFromy);
+  initSoftTxt();
 
-    initSoftTxt();
+  ABBDfontArial = document.getElementById("abbdArial");
+  ABBDfontTimes = document.getElementById("abbdTimes");
 
-    $b("#abbdArial").click(function(){
-        $b(this).addClass("active").prev().removeClass("active");
-        ffamily = "Arial, sans-serif";
-        $b("#thisActive").css("font-family",ffamily).focus();
-    })
+  ABBDfontArial.addEventListener("click",initArial,true);
+  ABBDfontTimes.addEventListener("click",initTimes,true);
 
-    $b("#abbdTimes").click(function(){
-        $b(this).addClass("active").next().removeClass("active");
-        ffamily = "Times, serif";
-        $b("#thisActive").css("font-family",ffamily).focus();
-    })
+  if(createtextarea==true){
+    ABBDcanvas.addEventListener("mousedown", setTxtArea, true);
+  }
 
-    if(createtextarea==true){
-        $b("#fwABBDwindow").bind("mousedown",function(e){
-            $b(".fwABBDcanvas").append('<div id="ABBDenteringtxt" class="ABBDtxtarea" ></div>');
-            $b("#ABBDenteringtxt").css({"top":e.clientY,"left":e.clientX});
-            txtpntFromx = e.clientX;
-            txtpntFromy = e.clientY;
-            realCalculation = true;
-            createtextarea = false;
-            $b(this).unbind();
-            //initSoftTxt();
-            initTextarea(e.clientX, e.clientY);
-        })
+  if(realCalculation==true){
+    createtextarea = false;
+    ABBDcanvas.txtpntFromx = txtpntFromx;
+    ABBDcanvas.txtpntFromy = txtpntFromy;
+    ABBDcanvas.addEventListener("mousemove", createTxtArea, true);
+    ABBDcanvas.addEventListener("mouseup", finishTxtArea, true);
+  }
+
+  /*
+
+  if(realCalculation==true){
+      createtextarea = false;
+
+   
+      $b(this).mouseup(function(e){
+          var ABBDwrapall = $b("#fwABBDwindow");
+          var ABBDpseudoTxtAra = $b("#ABBDenteringtxt");
+          ABBDwrapall.unbind("mousemove");
+          $b(this).unbind("mouseup");
+          $b(this).unbind("mousemove");
+          realCalculation = false;
+          createtextarea = false;
+          editingtxt = true;
+          var txtawidth = ABBDpseudoTxtAra.width();
+          var txtaheight = ABBDpseudoTxtAra.height();
+          var txtapos = ABBDpseudoTxtAra.position();
+          if(5>sizeBrush){sizeTxt=12;}else{sizeTxt=sizeBrush;}
+          //$b("#ABBDenteringtxt").css({"width":txtawidth+"px","color":exa,"font-size":sizeTxt+'px',"height":txtaheight+'px',"top":txtapos.top+"px","left":txtapos.left+"px"}).addClass("ABBDtxtarea").attr("contentEditable","true").text("Entrez votre texte ici");
+          $b("#ABBDenteringtxt").replaceWith('<textarea style="width:'+txtawidth+'px !important;color:'+exa+';font-size:'+sizeTxt+'px;height:'+txtaheight+'px !important;top:'+txtapos.top+'px;left:'+txtapos.left+'px;" id="thisActive" class="ABBDtxtarea">Entrez ici votre texte</textarea>');
+          $b("#thisActive").focus();
+          $b(".fwABBDcanvas").removeClass("crosshairstyle");
+          initTextarea(0,0);
+      })
     }
+  */
+}
 
-    if(realCalculation==true){
-        createtextarea = false;
-        $b("#fwABBDwindow").bind("mousemove",function(e){
-            var pntTo = transform_event_coord(e);
-            //console.log((txtpntFromx-pntTo.x)+"-"+(txtpntFromy-pntTo.y));
-            $b("#ABBDenteringtxt").css({"width":(pntTo.x-txtpntFromx)+"px","height":(pntTo.y-txtpntFromy)+"px"});
-        })
-     
-        $b(this).mouseup(function(e){
-            var ABBDwrapall = $b("#fwABBDwindow");
-            var ABBDpseudoTxtAra = $b("#ABBDenteringtxt");
-            ABBDwrapall.unbind("mousemove");
-            $b(this).unbind("mouseup");
-            $b(this).unbind("mousemove");
-            realCalculation = false;
-            createtextarea = false;
+function initSoftTxt(){
+  //var canvas = document.getElementById("fwABBDwindow");
+  //var ctx = canvas.getContext("2d");
+  if(document.getElementById("fwABBDwindowTemp")){
+    var canvasTp = document.getElementById("fwABBDwindowTemp");
+    canvasTp.parentNode.removeChild(canvasTp);
+  }
+}
+
+
+/*
+(function(){
+
+
+
+//* Fonction canvas Paint *//*
+
+function clearAll(largeurCanvas,hauteurCanvas){
+    $b("#fwABBDwindow, #fwABBDwindowTemp").remove();
+    $b("#ABBDbrush").before('<canvas id="fwABBDwindow" width="'+largeurCanvas+'" height="'+hauteurCanvas+'"></canvas>');
+    init(largeurCanvas,hauteurCanvas);
+    if($b("#pencil").hasClass("active") == false && $b("#gomme").hasClass("active") == false){
+        nodraw = true;
+        if($b(".drawsquare").hasClass("active")==true){
+            drawForm();
+        }else if($b(".drawcircle").hasClass("active")==true){
+            drawForm();
+        }else if($b(".drawtrait").hasClass("active")==true){
+            drawForm();
+        }else if($b(".drawsquarempty").hasClass("active")==true){
+            drawForm();
+        }else if($b(".p6 span").hasClass("active")==true){
+            nodraw = true;
+            drawing = false;
+            startDrawForms = false;         
             editingtxt = true;
-            var txtawidth = ABBDpseudoTxtAra.width();
-            var txtaheight = ABBDpseudoTxtAra.height();
-            var txtapos = ABBDpseudoTxtAra.position();
-            if(5>sizeBrush){sizeTxt=12;}else{sizeTxt=sizeBrush;}
-            //$b("#ABBDenteringtxt").css({"width":txtawidth+"px","color":exa,"font-size":sizeTxt+'px',"height":txtaheight+'px',"top":txtapos.top+"px","left":txtapos.left+"px"}).addClass("ABBDtxtarea").attr("contentEditable","true").text("Entrez votre texte ici");
-            $b("#ABBDenteringtxt").replaceWith('<textarea style="width:'+txtawidth+'px !important;color:'+exa+';font-size:'+sizeTxt+'px;height:'+txtaheight+'px !important;top:'+txtapos.top+'px;left:'+txtapos.left+'px;" id="thisActive" class="ABBDtxtarea">Entrez ici votre texte</textarea>');
-            $b("#thisActive").focus();
-            $b(".fwABBDcanvas").removeClass("crosshairstyle");
+            createtextarea = true;
             initTextarea(0,0);
-        })
+        }
     }
+}
 
+
+function init(largeurCanvas,hauteurCanvas){
+  var canvas = document.getElementById("fwABBDwindow");
+  canvas.width=largeurCanvas;
+  canvas.height=hauteurCanvas;
+  var ctx = canvas.getContext("2d");
+  $b("#fwABBDwindowTemp").remove();
+
+    addEventListener("mousedown", on_mousedown, true);
+    addEventListener("mousemove", on_mousemove, true);
+    addEventListener("mouseup", on_mouseup, true);
 }
 
 })()
@@ -685,12 +727,10 @@ function initTextarea(txtpntFromx,txtpntFromy){
 
 self.port.on("init", function(params){
 
-  //console.log(params);
-  if(document.doctype != null){
+  if(document.doctype.ownerDocument.contentType == "text/html"){
     defineBehavior(params);
   }else{
-    alert("Sorry, but this plugin works only on webpage");
-    //params[1].disabled = true;
+    alert("Sorry, but this plugin works only on webpage served has text/html");
   }
   
 });
