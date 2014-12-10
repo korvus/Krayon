@@ -1,7 +1,4 @@
-
-
 //https://bgrins.github.io/spectrum/
-
 //http://blogzinet.free.fr/blog/index.php?post/2013/05/17/Blocage-du-contenu-mixte-dans-Mozilla-Firefox-23-Aurora
 //https://davidsimpson.me/2013/10/10/how-to-allow-not-block-mixed-content-in-web-browsers/
 //https://bugzilla.mozilla.org/show_bug.cgi?id=886663
@@ -11,9 +8,13 @@
 //http://stackoverflow.com/questions/14367711/bookmarklet-on-https-page
 //http://content-security-policy.com/
 
+//http://dxr.mozilla.org/mozilla-central/source/toolkit/devtools/gcli/commands/screenshot.js#100-252
+//http://stackoverflow.com/questions/26525639/firefox-addon-sdk-1-17-take-screenshot
+//http://stackoverflow.com/questions/25332458/firefox-addon-api-for-taking-screenshot?rq=1
+//http://stackoverflow.com/questions/17913911/how-do-i-use-the-canvas-drawwindow-function-in-an-addon-created-using-the-addon
+
 /*  Bookmarks */
 /* Node */
-var ABBDbrushCanvas = "";
 var ABBDcanvas = "";
 var ABBDbrush = "";
 var ABBDslider = "";
@@ -40,11 +41,23 @@ var realCalculation = false;
 var editingtxt = false;
 var ffamily = "Times, serif";
 
+//Brush behavior
 function on_change(){
   var biggness = ABBDslider.firstChild.value;
-  nodraw = 1;
+  nodraw = true;
   percent(biggness);
   //toslide(ABBDbrush);
+}
+
+function stopBrush(ctxBrush){
+  //if(editingtxt == false){nodraw = false;}else{nodraw = true;}
+  ABBDslider.removeEventListener("mousemove", on_change, true);
+  ABBDslider.removeEventListener("change", stopBrush, true);
+  
+  sizeBrush = ABBDslider.firstChild.value;
+
+  nodraw = editingtxt !== false;
+  ctxBrush.clearRect(0,0,200,200);
 }
 
 function previsuBrush(){
@@ -64,7 +77,7 @@ function percent(value){
   var ctxBrush = ABBDbrush.getContext("2d");
   sbs(value,ctxBrush);
   sizeBrush = value;
-  ABBDbrushCanvas.style.zIndex = 4;
+  ABBDbrush.style.zIndex = 4;
 }
 
 /*
@@ -83,13 +96,6 @@ function sbs(size,ctxBrush){
   }
   ctxBrush.stroke();
   ctxBrush.closePath();
-}
-
-function stopBrush(ctxBrush){
-  //if(editingtxt == false){nodraw = false;}else{nodraw = true;}
-  ABBDslider.removeEventListener("mousemove", on_change, true);
-  nodraw = editingtxt !== false;
-  ctxBrush.clearRect(0,0,200,200);
 }
 
 // Git to variable exa the right value
@@ -133,8 +139,7 @@ function setTxt(){
     fontBT.classList.remove("hide");
   }
   ABBDentertxt.classList.add("active");
-  var globalAddon = document.querySelector(".fwABBDcanvas");
-  globalAddon.classList.add("crosshairstyle");
+  ABBDconsole.classList.add("crosshairstyle");
   nodraw = true;
   drawing = false;
   startDrawForms = false;
@@ -143,17 +148,37 @@ function setTxt(){
   initTextarea(0,0);
 }
 
-/*
+//Appelé lors du click sur le bouton tout effacer
 function setCleanAll(){
-  $b(".ABBDtxtarea").remove();
+  var allTxtareas = document.querySelectorAll(".ABBDtxtarea");
+  for(var aTextarea of allTxtareas){
+    aTextarea.parentNode.removeChild(aTextarea);
+  }
   clearAll(largeurcv,hauteurcv);
 }
-*/
+
+function eraseALL(){
+  var allAddTheAddon = document.querySelector(".fwABBDcanvas");
+  allAddTheAddon.parentNode.removeChild(allAddTheAddon);
+  ABBDcanvas.removeEventListener("mousedown", on_mousedown, true);
+  ABBDcanvas.removeEventListener("mousemove", on_mousemove, true);
+  ABBDcanvas.removeEventListener(  "mouseup", on_mouseup  , true);
+}
+
+function defineBehavior(params){
+  //Si on appuie alors que l'interface est déjà présente
+  if(document.querySelector(".fwABBDcanvas")){
+    eraseALL();
+  }else{
+    runthis(params[0]);
+  }
+
+}
 
 function runNext(){
 
   ABBDcanvas = document.getElementById("fwABBDwindow");
-  ABBDbrushCanvas = document.getElementById("brush");
+  ABBDconsole = document.querySelector(".fwABBDcanvas");
   ABBDbrush = document.getElementById("ABBDbrush");
   ABBDslider = document.getElementById("ABBDslider");
   ABBDcolorpicker = document.getElementById("colorpicker");
@@ -170,6 +195,7 @@ function runNext(){
   ABBDcanvas.height = hauteurcv;
 
   ABBDslider.addEventListener("mousedown", previsuBrush, true);
+  ABBDslider.addEventListener("change", function(){stopBrush(ctxBrush);}, true);
   ABBDslider.addEventListener("mouseup", function(){stopBrush(ctxBrush);}, true);
   window.addEventListener("resize", resizeCanvas, true);
   ABBDcolorpicker.addEventListener("change", setColors, true);
@@ -183,15 +209,6 @@ function runNext(){
     ABBDform.addEventListener("click", setForm, true);
   }
 
-  /*
-
-  $b(".close").click(function(e){
-      $b(".fwABBDcanvas").remove();
-      removeEventListener("mousedown", on_mousedown, true);
-      removeEventListener("mousemove", on_mousemove, true);
-      removeEventListener("mouseup", on_mouseup, true);
-  })
-  */
 }
 
 function initType(e){
@@ -203,8 +220,6 @@ function initType(e){
   eraser = false;
   drawing = false;
   if(typeSelected.classList.contains("on")){
-    console.log(e.target.notthisone);
-    console.log(e.target.usethisclass);
     typeSelected.classList.remove(e.target.notthisone);
     typeSelected.classList.add(e.target.usethisclass);
     type = (e.target.usethisclass == "crayon") ? "round" : "miter";
@@ -239,6 +254,7 @@ function inittools(){
   initPencilandFeutre();
 }
 
+//remove textarea behind
 function reinitxt(){
   txtareas = document.querySelectorAll(".fwABBDcanvas .ABBDtxtarea");
   for(var txtarea of txtareas){
@@ -248,44 +264,43 @@ function reinitxt(){
   }
 }
 
+//Remove temporary canvas + remove textarea behind (reinitxt) + add EventListener
 function initSoft(){
   //var canvas = document.getElementById("fwABBDwindow");
   if(document.getElementById("fwABBDwindowTemp")){
     var CanvasTMP = document.getElementById("fwABBDwindowTemp");
     CanvasTMP.parentNode.removeChild(CanvasTMP);
   }
+  reinitxt();
   //var ctx = canvas.getContext("2d");
   //$("#fwABBDwindowTemp").remove();
   nodraw = false;
-  addEventListener("mousedown", on_mousedown, true);
-  addEventListener("mousemove", on_mousemove, true);
-  addEventListener("mouseup", on_mouseup, true);
+  ABBDcanvas.addEventListener("mousedown", on_mousedown, true);
+  ABBDcanvas.addEventListener("mousemove", on_mousemove, true);
+  ABBDcanvas.addEventListener("mouseup"  , on_mouseup  , true);
 }
 
+/* size the Canvas and remove the tmp canvas */
 function initCV(largeurCanvas,hauteurCanvas){
-  var canvas = document.getElementById("fwABBDwindow");
+  var ABBDcanvas = document.getElementById("fwABBDwindow");
   var canvasTmp = document.getElementById("fwABBDwindowTemp");
-  canvas.width = largeurCanvas;
-  canvas.height = hauteurCanvas;
-  var ctx = canvas.getContext("2d");
+  ABBDcanvas.width = largeurCanvas;
+  ABBDcanvas.height = hauteurCanvas;
+  var ctx = ABBDcanvas.getContext("2d");
   if(canvasTmp){canvasTmp.parentNode.removeChild(temporary);}
-  addEventListener("mousedown", on_mousedown, true);
-  addEventListener("mousemove", on_mousemove, true);
-  addEventListener("mouseup", on_mouseup, true);
+  ABBDcanvas.addEventListener("mousedown", on_mousedown, true);
+  ABBDcanvas.addEventListener("mousemove", on_mousemove, true);
+  ABBDcanvas.addEventListener("mouseup", on_mouseup, true);
 }
 
 function on_mousedown(e){
   if(createtextarea == false){drawing = true;}else{drawing = false;}
   lastpos = transform_event_coord(e);
-  //console.log("");
 }
 
 function on_mousemove(e){
 
-  if (!drawing){
-    return;
-  }
-  if(nodraw==true){
+  if (!drawing || nodraw == true){
     return;
   }
 
@@ -294,6 +309,7 @@ function on_mousemove(e){
   var ctx = ABBDcanvas.getContext("2d");
 
   ctx.globalCompositeOperation = modefusion;//Mode de superposition des éléments -- pour la gomme
+  //console.log(exa+" - "+lastpos.x+" - "+lastpos.y);
   ctx.strokeStyle = exa;//couleur
   ctx.fillStyle = exa;
   ctx.lineWidth = sizeBrush;//Largeur du trait.
@@ -362,14 +378,6 @@ function addCSS(source){
 	head.appendChild(css);
 }
 
-function defineBehavior(params){
-  if(document.getElementById("ABBDbrush")){
-    alert("toHide");
-  }else{
-    runthis(params[0]);
-  }
-
-}
 
 function runthis(cssToLoad){
 	var wrapper = document.createElement('div');
@@ -559,24 +567,19 @@ function setTxtArea(e){
   var pseudoTxtarea = document.createElement("div");
   pseudoTxtarea.id = "ABBDenteringtxt";
   pseudoTxtarea.classList.add("ABBDtxtarea");
-  consoleG = document.querySelector(".fwABBDcanvas");
-  consoleG.appendChild(pseudoTxtarea);
+  ABBDconsole.appendChild(pseudoTxtarea);
   pseudoTxtarea.style.top = e.clientY+"px";
   pseudoTxtarea.style.left = e.clientX+"px";
   txtpntFromx = e.clientX;
   txtpntFromy = e.clientY;
   realCalculation = true;
   createtextarea = false;
-  //initSoftTxt();
-  ABBDcanvas.removeEventListener("click", createTxtArea, false);
+  ABBDconsole.removeEventListener("mousedown", setTxtArea, true);
   initTextarea(e.clientX, e.clientY);
 }
 
 function createTxtArea(e){
   var pntTo = transform_event_coord(e);
-  //console.log((txtpntFromx-pntTo.x)+"-"+(txtpntFromy-pntTo.y));
-  var txtpntFromy = e.target.txtpntFromy;
-  var txtpntFromx = e.target.txtpntFromx;
   var txtareaNode = document.getElementById("ABBDenteringtxt");
   txtareaNode.style.width = (pntTo.x-txtpntFromx)+"px";
   txtareaNode.style.height = (pntTo.y-txtpntFromy)+"px";
@@ -584,18 +587,14 @@ function createTxtArea(e){
 
 function finishTxtArea(e){
   var ABBDpseudoTxtAra = document.getElementById("ABBDenteringtxt");
-  var globalAddon = document.querySelector(".fwABBDcanvas");
-
-  ABBDcanvas.removeEventListener("mousemove", createTxtArea, false);
-  ABBDcanvas.removeEventListener("mouseup", finishTxtArea, false);
+  ABBDconsole.removeEventListener("mousemove", createTxtArea, false);
+  ABBDconsole.removeEventListener("mouseup", finishTxtArea, false);
   realCalculation = false;
   createtextarea = false;
   editingtxt = true;
 
   var txtawidth = ABBDpseudoTxtAra.offsetWidth;
   var txtaheight = ABBDpseudoTxtAra.offsetHeight;
-  console.log(ABBDpseudoTxtAra);
-
   //http://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
   
   var txtapos = ABBDpseudoTxtAra.getBoundingClientRect();
@@ -607,124 +606,89 @@ function finishTxtArea(e){
   newTxtarea.style.cssText = 'width:'+txtawidth+'px !important;color:'+exa+';font-size:'+sizeTxt+'px;height:'+txtaheight+'px !important;top:'+txtapos.top+'px;left:'+txtapos.left+'px;';
   ABBDpseudoTxtAra.parentNode.replaceChild(newTxtarea,ABBDpseudoTxtAra);
   newTxtarea.focus;
-  globalAddon.classList.remove("crosshairstyle");
-  initTextarea(0,0);
+  ABBDconsole.classList.remove("crosshairstyle");
+  initTextarea(txtpntFromx,txtpntFromy);
 
-  ABBDcanvas.removeEventListener("mousemove", createTxtArea, false);
-  console.log("end finishTxtArea");
 }
 
 //Function calling herself each click /via createTxtArea
 function initTextarea(txtpntFromx,txtpntFromy){
-  console.log(txtpntFromx+" - "+txtpntFromy);
   initSoftTxt();
 
   ABBDfontArial = document.getElementById("abbdArial");
   ABBDfontTimes = document.getElementById("abbdTimes");
 
-  ABBDfontArial.addEventListener("click",initArial,true);
-  ABBDfontTimes.addEventListener("click",initTimes,true);
+  ABBDfontArial.addEventListener("click", initArial, true);
+  ABBDfontTimes.addEventListener("click", initTimes, true);
 
   if(createtextarea==true){
-    ABBDcanvas.addEventListener("mousedown", setTxtArea, true);
+    ABBDconsole.addEventListener("mousedown", setTxtArea, true);
   }
 
-  if(realCalculation==true){
+  if(realCalculation == true){
     createtextarea = false;
-    ABBDcanvas.txtpntFromx = txtpntFromx;
-    ABBDcanvas.txtpntFromy = txtpntFromy;
-    ABBDcanvas.addEventListener("mousemove", createTxtArea, true);
-    ABBDcanvas.addEventListener("mouseup", finishTxtArea, true);
+    ABBDconsole.addEventListener("mousemove", createTxtArea, false);
+    ABBDconsole.addEventListener("mouseup", finishTxtArea, true);
   }
 
-  /*
-
-  if(realCalculation==true){
-      createtextarea = false;
-
-   
-      $b(this).mouseup(function(e){
-          var ABBDwrapall = $b("#fwABBDwindow");
-          var ABBDpseudoTxtAra = $b("#ABBDenteringtxt");
-          ABBDwrapall.unbind("mousemove");
-          $b(this).unbind("mouseup");
-          $b(this).unbind("mousemove");
-          realCalculation = false;
-          createtextarea = false;
-          editingtxt = true;
-          var txtawidth = ABBDpseudoTxtAra.width();
-          var txtaheight = ABBDpseudoTxtAra.height();
-          var txtapos = ABBDpseudoTxtAra.position();
-          if(5>sizeBrush){sizeTxt=12;}else{sizeTxt=sizeBrush;}
-          //$b("#ABBDenteringtxt").css({"width":txtawidth+"px","color":exa,"font-size":sizeTxt+'px',"height":txtaheight+'px',"top":txtapos.top+"px","left":txtapos.left+"px"}).addClass("ABBDtxtarea").attr("contentEditable","true").text("Entrez votre texte ici");
-          $b("#ABBDenteringtxt").replaceWith('<textarea style="width:'+txtawidth+'px !important;color:'+exa+';font-size:'+sizeTxt+'px;height:'+txtaheight+'px !important;top:'+txtapos.top+'px;left:'+txtapos.left+'px;" id="thisActive" class="ABBDtxtarea">Entrez ici votre texte</textarea>');
-          $b("#thisActive").focus();
-          $b(".fwABBDcanvas").removeClass("crosshairstyle");
-          initTextarea(0,0);
-      })
-    }
-  */
 }
 
+//Remove temporary canvas
 function initSoftTxt(){
-  //var canvas = document.getElementById("fwABBDwindow");
-  //var ctx = canvas.getContext("2d");
   if(document.getElementById("fwABBDwindowTemp")){
     var canvasTp = document.getElementById("fwABBDwindowTemp");
     canvasTp.parentNode.removeChild(canvasTp);
   }
 }
 
+function clearAll(wCV,hCV){
 
-/*
-(function(){
+  ABBDcanvas.removeEventListener("mousedown", on_mousedown, true);
+  ABBDcanvas.removeEventListener("mousemove", on_mousemove, true);
+  ABBDcanvas.removeEventListener(  "mouseup", on_mouseup  , true);
+
+  var canvasTmp = document.getElementById("fwABBDwindowTemp");
+  var container = ABBDcanvas.parentNode;
+  if(canvasTmp){canvasTmp.parentNode.removeChild(temporary);}
+  ABBDcanvas.parentNode.removeChild(ABBDcanvas);
+
+  neoCanvas = document.createElement("canvas");
+  neoCanvas.id = "fwABBDwindow";
+  neoCanvas.style.width = wCV+"px";
+  neoCanvas.style.height = hCV+"px";
+  ABBDcanvas = container.insertBefore(neoCanvas, ABBDbrush);
 
 
+  initCV(wCV,hCV);
 
-//* Fonction canvas Paint *//*
+  var iconPencil = document.getElementById("pencil");
+  var iconGum = document.getElementById("gomme");
 
-function clearAll(largeurCanvas,hauteurCanvas){
-    $b("#fwABBDwindow, #fwABBDwindowTemp").remove();
-    $b("#ABBDbrush").before('<canvas id="fwABBDwindow" width="'+largeurCanvas+'" height="'+hauteurCanvas+'"></canvas>');
-    init(largeurCanvas,hauteurCanvas);
-    if($b("#pencil").hasClass("active") == false && $b("#gomme").hasClass("active") == false){
-        nodraw = true;
-        if($b(".drawsquare").hasClass("active")==true){
-            drawForm();
-        }else if($b(".drawcircle").hasClass("active")==true){
-            drawForm();
-        }else if($b(".drawtrait").hasClass("active")==true){
-            drawForm();
-        }else if($b(".drawsquarempty").hasClass("active")==true){
-            drawForm();
-        }else if($b(".p6 span").hasClass("active")==true){
-            nodraw = true;
-            drawing = false;
-            startDrawForms = false;         
-            editingtxt = true;
-            createtextarea = true;
-            initTextarea(0,0);
-        }
+  if(!iconPencil.classList.contains("active") && !iconGum.classList.contains("active")){
+    nodraw = true;
+    waswriting = 0;
+    var formBTDom = document.querySelector(".drawsquare, .drawcircle, .drawtrait, .drawsquarempty");
+    var txtAreasBTDom = document.querySelectorAll(".fwABBDcanvas .p6 span");
+    for(var aTxtArea of txtAreasBTDom){
+      if(aTxtArea.classList.contains("active")) waswriting++;
     }
+
+    if(formBTDom.classList.contains("active")){
+      drawForm();
+    }else if(waswriting>0){
+      nodraw = true;
+      drawing = false;
+      startDrawForms = false;
+      editingtxt = true;
+      createtextarea = true;
+      initTextarea(0,0);
+    }
+  }
+
 }
 
 
-function init(largeurCanvas,hauteurCanvas){
-  var canvas = document.getElementById("fwABBDwindow");
-  canvas.width=largeurCanvas;
-  canvas.height=hauteurCanvas;
-  var ctx = canvas.getContext("2d");
-  $b("#fwABBDwindowTemp").remove();
-
-    addEventListener("mousedown", on_mousedown, true);
-    addEventListener("mousemove", on_mousemove, true);
-    addEventListener("mouseup", on_mouseup, true);
-}
-
-})()
-*/
-
-
+//* Launch everything!! *//
 self.port.on("init", function(params){
 
   if(document.doctype.ownerDocument.contentType == "text/html"){
