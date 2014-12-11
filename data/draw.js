@@ -170,7 +170,7 @@ function defineBehavior(params){
   if(document.querySelector(".fwABBDcanvas")){
     eraseALL();
   }else{
-    runthis(params[0]);
+    runthis(params);
   }
 
 }
@@ -379,37 +379,38 @@ function addCSS(source){
 }
 
 
-function runthis(cssToLoad){
+function runthis(dataFromPlugin){
 	var wrapper = document.createElement('div');
+
 
 	wrapper.innerHTML= '<div class="fwABBDcanvas"><div class="fwABBDconsol">'+
       '<div class="part p1">'+
-          '<span class="legend">Taille :</span>'+
+          '<span class="legend">'+dataFromPlugin[2]["size_id"]+' :</span>'+
           '<div id="ABBDslider">'+
               '<input type="range" min="1" max="150" value="1" />'+
           '</div>'+
       '</div>'+
       '<div class="part p2">'+
-          '<span class="legend">Couleur :</span>'+
+          '<span class="legend">'+dataFromPlugin[2]["color_id"]+' :</span>'+
           '<div class="cp"><input type="color" name="colorpicker" id="colorpicker"></div>'+
       '</div>'+
       '<div class="part p4">'+
-          '<a href="#" id="gomme" class="off">Mode Gomme</a>'+
-          '<a href="#" id="pencil" class="on active crayon">Mode Gomme</a>'+
+          '<a href="#" id="gomme" class="off">'+dataFromPlugin[2]["mod_gomme_id"]+'</a>'+
+          '<a href="#" id="pencil" class="on active crayon">'+dataFromPlugin[2]["mod_write_id"]+'</a>'+
       '</div>'+
       '<div class="part p5">'+
-          '<span class="drawsquare">Carré</span>'+
-          '<span class="drawcircle">Cercle</span>'+
-          '<span class="drawtrait">Trait</span>'+
-          '<span class="drawsquarempty">Trait</span>'+
+          '<span class="drawsquare">'+dataFromPlugin[2]["mod_fullsquare_id"]+'</span>'+
+          '<span class="drawcircle">'+dataFromPlugin[2]["mod_circle_id"]+'</span>'+
+          '<span class="drawtrait">'+dataFromPlugin[2]["mod_trait_id"]+'</span>'+
+          '<span class="drawsquarempty">'+dataFromPlugin[2]["mod_emptysquare_id"]+'</span>'+
       '</div>'+
       '<div class="part p3">'+
-          '<a href="#" id="eraseall" class="legend">Tout effacer</a>'+
+          '<a href="#" id="eraseall" class="legend">'+dataFromPlugin[2]["mod_erraseall_id"]+'</a>'+
       '</div>'+
       '<div class="part p6">'+
-          '<span class="hide active" title="typo a empattement" id="abbdTimes">Sans serif</span>'+
-          '<span class="hide" title="typo sans empattement" id="abbdArial">Serif</span>'+
-          '<a href="#" id="entertext">Entrer un texte</a>'+
+          '<span class="hide active" title="typo a empattement" id="abbdTimes">'+dataFromPlugin[2]["mod_sansserif_id"]+'</span>'+
+          '<span class="hide" title="typo sans empattement" id="abbdArial">'+dataFromPlugin[2]["mod_serif_id"]+'</span>'+
+          '<a href="#" id="entertext">'+dataFromPlugin[2]["mod_entertext_id"]+'</a>'+
       '</div>'+
       '</div><canvas id="fwABBDwindow">'+
       '</canvas><canvas id="ABBDbrush" height="150" width="150"></canvas>'+
@@ -417,7 +418,7 @@ function runthis(cssToLoad){
 
 	var canevas = wrapper.firstChild;
   document.body.appendChild(canevas);
-  addCSS(cssToLoad);
+  addCSS(dataFromPlugin[0]);
   runNext();
 
   /*
@@ -694,7 +695,7 @@ self.port.on("init", function(params){
   if(document.doctype.ownerDocument.contentType == "text/html"){
     defineBehavior(params);
   }else{
-    alert("Sorry, but this plugin works only on webpage served has text/html");
+    alert(params[2]["mod_warning_id"]);
   }
   
 });
