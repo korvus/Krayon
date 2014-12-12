@@ -1,1 +1,1 @@
-cfx xpi && wget --post-file=canvas.xpi http://127.0.0.1:8080/
+cfx xpi && wget --post-file=crayon.xpi http://127.0.0.1:8080/

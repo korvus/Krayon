@@ -13,6 +13,8 @@
 //http://stackoverflow.com/questions/25332458/firefox-addon-api-for-taking-screenshot?rq=1
 //http://stackoverflow.com/questions/17913911/how-do-i-use-the-canvas-drawwindow-function-in-an-addon-created-using-the-addon
 
+//
+
 /*  Bookmarks */
 /* Node */
 var ABBDcanvas = "";
@@ -380,8 +382,7 @@ function addCSS(source){
 
 
 function runthis(dataFromPlugin){
-	var wrapper = document.createElement('div');
-
+  var wrapper = document.createElement('div');
 
 	wrapper.innerHTML= '<div class="fwABBDcanvas"><div class="fwABBDconsol">'+
       '<div class="part p1">'+
@@ -419,6 +420,9 @@ function runthis(dataFromPlugin){
 	var canevas = wrapper.firstChild;
   document.body.appendChild(canevas);
   addCSS(dataFromPlugin[0]);
+  if(dataFromPlugin[3] != 'undefined'){
+    addCSS(dataFromPlugin[3]);
+  }
   runNext();
 
   /*
@@ -691,9 +695,12 @@ function clearAll(wCV,hCV){
 
 //* Launch everything!! *//
 self.port.on("init", function(params){
-
-  if(document.doctype.ownerDocument.contentType == "text/html"){
-    defineBehavior(params);
+  if(document.doctype != null){
+    if(document.doctype.ownerDocument.contentType == "text/html"){
+      defineBehavior(params);
+    }else{
+      alert(params[2]["mod_warning_id"]);
+    }
   }else{
     alert(params[2]["mod_warning_id"]);
   }
