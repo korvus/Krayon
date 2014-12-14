@@ -43,6 +43,10 @@ var realCalculation = false;
 var editingtxt = false;
 var ffamily = "Times, serif";
 
+/* Screenshot Area */
+var createScreenShot = false;
+var currentCalcul = false;
+
 //Brush behavior
 function on_change(){
   var biggness = ABBDslider.firstChild.value;
@@ -57,6 +61,12 @@ function stopBrush(ctxBrush){
   ABBDslider.removeEventListener("change", stopBrush, true);
   
   sizeBrush = ABBDslider.firstChild.value;
+
+  if(editingtxt){
+    if(document.getElementById("thisActive")){
+      document.getElementById("thisActive").style.fontSize = sizeBrush+"px";
+    }
+  }
 
   nodraw = editingtxt !== false;
   ctxBrush.clearRect(0,0,200,200);
@@ -101,7 +111,14 @@ function sbs(size,ctxBrush){
 }
 
 // Git to variable exa the right value
-function setColors(){exa = ABBDcolorpicker.value;}
+function setColors(){
+  exa = ABBDcolorpicker.value;
+  if(editingtxt){//If user has an active textarea
+    if(document.getElementById("thisActive")){
+      document.getElementById("thisActive").style.color = exa;
+    }
+  }
+}
 
 // Set Gum behavior
 function setGum(){
@@ -177,6 +194,92 @@ function defineBehavior(params){
 
 }
 
+
+function takeFScreenShot(){
+  heightTotal = document.body.scrollHeight;
+  self.port.emit('takeascreen', heightTotal);
+}
+
+
+function setScreenArea(e){
+  var pntTo = transform_event_coord(e);
+  var screenAreaNode = document.getElementById("ABBDsurfaceScreen");
+
+  if(pntTo.x > ptFromx && pntTo.y > ptFromy){
+    screenAreaNode.style.width = (pntTo.x-ptFromx)+"px";
+    screenAreaNode.style.height = (pntTo.y-ptFromy)+"px";
+  }else if(pntTo.x > ptFromx && pntTo.y < ptFromy){//if pointer is verticaly upper than the original click
+    screenAreaNode.style.top = pntTo.y+"px";
+    screenAreaNode.style.width = (pntTo.x-ptFromx)+"px";
+    screenAreaNode.style.height = (ptFromy-pntTo.y)+"px";
+  }else if(pntTo.x < ptFromx && pntTo.y > ptFromy){//îf pointer is horizontaly lefter than the original click
+    screenAreaNode.style.left = pntTo.x+"px";
+    screenAreaNode.style.width = (ptFromx - pntTo.x)+"px";
+    screenAreaNode.style.height = (pntTo.y-ptFromy)+"px";
+  }else{//if pointer is lefter and upper than the original point
+    screenAreaNode.style.top = pntTo.y+"px";
+    screenAreaNode.style.left = pntTo.x+"px";
+    screenAreaNode.style.width = (ptFromx-pntTo.x)+"px";
+    screenAreaNode.style.height = (ptFromy-pntTo.y)+"px";
+  }
+
+}
+
+function createScreenArea(e){
+  var pseudoScreen = document.createElement("div");
+  pseudoScreen.id = "ABBDsurfaceScreen";
+  ABBDconsole.appendChild(pseudoScreen);
+  firstPos = transform_event_coord(e);
+  pseudoScreen.style.top = firstPos.y+"px";
+  pseudoScreen.style.left = firstPos.x+"px";
+  ptFromx = firstPos.x;
+  ptFromy = firstPos.y;
+  currentCalcul = true;
+  createScreenShot = false;
+  ABBDconsole.removeEventListener("mousedown", createScreenArea, true);
+  takeScreenShotZ(e.clientX, e.clientY);
+}
+
+function finishScreenArea(e){
+  currentCalcul = false;
+  ABBDconsole.classList.remove("crosshairstyle");
+  var ABBDscreenSize = document.getElementById("ABBDsurfaceScreen");
+  ABBDconsole.removeEventListener("mousemove", setScreenArea, false);
+  ABBDconsole.removeEventListener("mouseup", finishScreenArea, false);
+  var screenPos = ABBDscreenSize.getBoundingClientRect();
+  var topS = screenPos.top+document.documentElement.scrollTop;
+  var leftS = screenPos.left+document.documentElement.scrollLeft;
+  var widthS = ABBDscreenSize.offsetWidth;
+  var heightS = ABBDscreenSize.offsetHeight;
+  self.port.emit('takeascreen', {"to":topS,"le":leftS,"wi":widthS,"he":heightS});
+  finishScreen();
+}
+
+function takeScreenShotZ(ptFromx,ptFromy){
+  if(createScreenShot === true){
+    ABBDconsole.addEventListener("mousedown", createScreenArea, true);
+  }
+
+  if(currentCalcul === true){
+    ABBDconsole.addEventListener("mousemove", setScreenArea, false);
+    ABBDconsole.addEventListener("mouseup", finishScreenArea, true);
+  }
+
+}
+
+function setScreen(){
+
+  initSoftTxt();
+  nodraw = true;
+  drawing = false;
+  startDrawForms = false;
+  editingtxt = true;
+  ABBDscreenZone.classList.add("active");
+  ABBDconsole.classList.add("crosshairstyle");
+  createScreenShot = true;
+  takeScreenShotZ();
+}
+
 function runNext(){
 
   ABBDcanvas = document.getElementById("fwABBDwindow");
@@ -188,6 +291,8 @@ function runNext(){
   ABBDforms = document.querySelectorAll(".p5 span");
   ABBDentertxt = document.getElementById("entertext");
   ABBDclean = document.getElementById("eraseall");
+  ABBDfullscreen = document.getElementById("fullscreenshot");
+  ABBDscreenZone = document.getElementById("screenshot");
 
   hauteurcv = document.documentElement.scrollHeight;
   largeurcv = document.documentElement.scrollWidth;
@@ -204,7 +309,8 @@ function runNext(){
   ABBDgomme.addEventListener("click", setGum, true);
   ABBDentertxt.addEventListener("click",setTxt, true)
   ABBDclean.addEventListener("click",setCleanAll, true);
-
+  ABBDfullscreen.addEventListener("click",takeFScreenShot, true);
+  ABBDscreenZone.addEventListener("click",setScreen, true);
   inittools();
   
   for(var ABBDform of ABBDforms){
@@ -301,7 +407,6 @@ function on_mousedown(e){
 }
 
 function on_mousemove(e){
-
   if (!drawing || nodraw == true){
     return;
   }
@@ -311,7 +416,6 @@ function on_mousemove(e){
   var ctx = ABBDcanvas.getContext("2d");
 
   ctx.globalCompositeOperation = modefusion;//Mode de superposition des éléments -- pour la gomme
-  //console.log(exa+" - "+lastpos.x+" - "+lastpos.y);
   ctx.strokeStyle = exa;//couleur
   ctx.fillStyle = exa;
   ctx.lineWidth = sizeBrush;//Largeur du trait.
@@ -339,8 +443,8 @@ function on_mouseup(){
 
 function transform_event_coord(e){
   var coord = offset(ABBDcanvas);
-  //var coordx = window.pageXOffset;//For knowing how much has been scrolled
-  //var coordy = window.pageYOffset;
+  var coordx = window.pageXOffset;//For knowing how much has been scrolled
+  var coordy = window.pageYOffset;
   return{
       //x: coordy - coord.left+e.clientX,
       //y: coordx - coord.top+e.clientY
@@ -384,7 +488,9 @@ function addCSS(source){
 function runthis(dataFromPlugin){
   var wrapper = document.createElement('div');
 
-	wrapper.innerHTML= '<div class="fwABBDcanvas"><div class="fwABBDconsol">'+
+	wrapper.innerHTML= '<div class="fwABBDcanvas">'+
+  '<div class="fwABBDconsolWrap">'+
+  '<div class="fwABBDconsol">'+
       '<div class="part p1">'+
           '<span class="legend">'+dataFromPlugin[2]["size_id"]+' :</span>'+
           '<div id="ABBDslider">'+
@@ -396,25 +502,31 @@ function runthis(dataFromPlugin){
           '<div class="cp"><input type="color" name="colorpicker" id="colorpicker"></div>'+
       '</div>'+
       '<div class="part p4">'+
-          '<a href="#" id="gomme" class="off">'+dataFromPlugin[2]["mod_gomme_id"]+'</a>'+
+          '<a href="#" title="'+dataFromPlugin[2]["mod_ttl_gum_id"]+'" id="gomme" class="off">'+dataFromPlugin[2]["mod_gomme_id"]+'</a>'+
           '<a href="#" id="pencil" class="on active crayon">'+dataFromPlugin[2]["mod_write_id"]+'</a>'+
       '</div>'+
       '<div class="part p5">'+
-          '<span class="drawsquare">'+dataFromPlugin[2]["mod_fullsquare_id"]+'</span>'+
-          '<span class="drawcircle">'+dataFromPlugin[2]["mod_circle_id"]+'</span>'+
-          '<span class="drawtrait">'+dataFromPlugin[2]["mod_trait_id"]+'</span>'+
-          '<span class="drawsquarempty">'+dataFromPlugin[2]["mod_emptysquare_id"]+'</span>'+
+          '<span title="'+dataFromPlugin[2]["mod_ttl_square_id"]+'" class="drawsquare">'+dataFromPlugin[2]["mod_fullsquare_id"]+'</span>'+
+          '<span title="'+dataFromPlugin[2]["mod_ttl_circle_id"]+'" class="drawcircle">'+dataFromPlugin[2]["mod_circle_id"]+'</span>'+
+          '<span title="'+dataFromPlugin[2]["mod_ttl_trait_id"]+'" class="drawtrait">'+dataFromPlugin[2]["mod_trait_id"]+'</span>'+
+          '<span title="'+dataFromPlugin[2]["mod_ttl_emptySquare_id"]+'" class="drawsquarempty">'+dataFromPlugin[2]["mod_emptysquare_id"]+'</span>'+
+      '</div>'+
+      '<div class="part p6">'+
+          '<span class="hide" title="'+dataFromPlugin[2]["mod_sansserif_id"]+'" id="abbdTimes">'+dataFromPlugin[2]["mod_sansserif_id"]+'</span>'+
+          '<span class="hide" title="'+dataFromPlugin[2]["mod_serif_id"]+'" id="abbdArial">'+dataFromPlugin[2]["mod_serif_id"]+'</span>'+
+          '<a href="#" id="entertext">'+dataFromPlugin[2]["mod_entertext_id"]+'</a>'+
+      '</div>'+
+      '<div class="part p7">'+
+          '<span class="" title="'+dataFromPlugin[2]["mod_screenshot"]+'" id="screenshot">'+dataFromPlugin[2]["mod_screenshot"]+'</span>'+
+          '<span class="" title="'+dataFromPlugin[2]["mod_fullscreenshot"]+'" id="fullscreenshot">'+dataFromPlugin[2]["mod_fullscreenshot"]+'</span>'+
       '</div>'+
       '<div class="part p3">'+
           '<a href="#" id="eraseall" class="legend">'+dataFromPlugin[2]["mod_erraseall_id"]+'</a>'+
       '</div>'+
-      '<div class="part p6">'+
-          '<span class="hide active" title="typo a empattement" id="abbdTimes">'+dataFromPlugin[2]["mod_sansserif_id"]+'</span>'+
-          '<span class="hide" title="typo sans empattement" id="abbdArial">'+dataFromPlugin[2]["mod_serif_id"]+'</span>'+
-          '<a href="#" id="entertext">'+dataFromPlugin[2]["mod_entertext_id"]+'</a>'+
       '</div>'+
-      '</div><canvas id="fwABBDwindow">'+
-      '</canvas><canvas id="ABBDbrush" height="150" width="150"></canvas>'+
+      '</div>'+
+      '<canvas id="fwABBDwindow"></canvas>'+
+      '<canvas id="ABBDbrush" height="150" width="150"></canvas>'+
       '</div>';
 
 	var canevas = wrapper.firstChild;
@@ -460,23 +572,23 @@ function startForm(e){
 
 function CalculForm(e){
   if(startDrawForms == true){
-      CurPos = transform_event_coord(e);
-      var ctx = e.target.getContext("2d");
+    CurPos = transform_event_coord(e);
+    var ctx = e.target.getContext("2d");
 
-      var BTdrawsquare = document.querySelector(".fwABBDconsol .drawsquare");
-      var BTdrawcircle = document.querySelector(".fwABBDconsol .drawcircle");
-      var BTdrawsquarempty = document.querySelector(".fwABBDconsol .drawsquarempty");
+    var BTdrawsquare = document.querySelector(".fwABBDconsol .drawsquare");
+    var BTdrawcircle = document.querySelector(".fwABBDconsol .drawcircle");
+    var BTdrawsquarempty = document.querySelector(".fwABBDconsol .drawsquarempty");
 
-      ctx.clearRect(0, 0, largeurcv, hauteurcv);
-      if(BTdrawsquare.classList.contains("active")){
-          drawRectangle(firstPos,CurPos,ctx);
-      }else if(BTdrawcircle.classList.contains("active")){
-          drawCircle(firstPos,CurPos,ctx);
-      }else if(BTdrawsquarempty.classList.contains("active")){
-          drawRectanglempty(firstPos,CurPos,ctx);
-      }else{
-          drawLine(firstPos,CurPos,ctx);
-      }
+    ctx.clearRect(0, 0, largeurcv, hauteurcv);
+    if(BTdrawsquare.classList.contains("active")){
+        drawRectangle(firstPos,CurPos,ctx);
+    }else if(BTdrawcircle.classList.contains("active")){
+        drawCircle(firstPos,CurPos,ctx);
+    }else if(BTdrawsquarempty.classList.contains("active")){
+        drawRectanglempty(firstPos,CurPos,ctx);
+    }else{
+        drawLine(firstPos,CurPos,ctx);
+    }
   }
 }
 
@@ -547,20 +659,21 @@ function drawLine(pntFrom, pntTo, ctx){
 }
 
 function initArial(e){
+  ffamily = "Arial, sans-serif";
   e.target.classList.add("active");
   e.target.previousSibling.classList.remove("active");
-  ffamily = "Arial, sans-serif";
-  setFieldFocus;
+  setFieldFocus();
 }
 
 function initTimes(e){
+  ffamily = "Times, serif";
   e.target.classList.add("active");
   e.target.nextSibling.classList.remove("active");
-  ffamily = "Times, serif";
-  setFieldFocus;
+  setFieldFocus();
 }
 
 function setFieldFocus(){
+  console.log(document.getElementById("thisActive"));
   if(document.getElementById("thisActive")){
     currentField = document.getElementById("thisActive");
     currentField.style.fontFamily = ffamily;
@@ -573,14 +686,15 @@ function setTxtArea(e){
   pseudoTxtarea.id = "ABBDenteringtxt";
   pseudoTxtarea.classList.add("ABBDtxtarea");
   ABBDconsole.appendChild(pseudoTxtarea);
-  pseudoTxtarea.style.top = e.clientY+"px";
-  pseudoTxtarea.style.left = e.clientX+"px";
-  txtpntFromx = e.clientX;
-  txtpntFromy = e.clientY;
+  var pntTo = transform_event_coord(e);
+  pseudoTxtarea.style.top = pntTo.y+"px";
+  pseudoTxtarea.style.left = pntTo.x+"px";
+  txtpntFromx = pntTo.x;
+  txtpntFromy = pntTo.y;
   realCalculation = true;
   createtextarea = false;
   ABBDconsole.removeEventListener("mousedown", setTxtArea, true);
-  initTextarea(e.clientX, e.clientY);
+  initTextarea(pntTo.x, pntTo.y);
 }
 
 function createTxtArea(e){
@@ -603,12 +717,14 @@ function finishTxtArea(e){
   //http://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
   
   var txtapos = ABBDpseudoTxtAra.getBoundingClientRect();
+  var topTxtarea = txtapos.top+document.documentElement.scrollTop;
+  var leftTxtarea = txtapos.left+document.documentElement.scrollLeft;
   if(5>sizeBrush){sizeTxt=12;}else{sizeTxt=sizeBrush;}
   var newTxtarea = document.createElement("textarea");
   newTxtarea.id = "thisActive";
   newTxtarea.classList.add("ABBDtxtarea");
   newTxtarea.placeholder = "Entrez ici votre texte";
-  newTxtarea.style.cssText = 'width:'+txtawidth+'px !important;color:'+exa+';font-size:'+sizeTxt+'px;height:'+txtaheight+'px !important;top:'+txtapos.top+'px;left:'+txtapos.left+'px;';
+  newTxtarea.style.cssText = 'width:'+txtawidth+'px !important;color:'+exa+';font-size:'+sizeTxt+'px;height:'+txtaheight+'px !important;top:'+topTxtarea+'px;left:'+leftTxtarea+'px;';
   ABBDpseudoTxtAra.parentNode.replaceChild(newTxtarea,ABBDpseudoTxtAra);
   newTxtarea.focus;
   ABBDconsole.classList.remove("crosshairstyle");
@@ -650,11 +766,11 @@ function clearAll(wCV,hCV){
 
   ABBDcanvas.removeEventListener("mousedown", on_mousedown, true);
   ABBDcanvas.removeEventListener("mousemove", on_mousemove, true);
-  ABBDcanvas.removeEventListener(  "mouseup", on_mouseup  , true);
+  ABBDcanvas.removeEventListener("mouseup", on_mouseup, true);
 
   var canvasTmp = document.getElementById("fwABBDwindowTemp");
   var container = ABBDcanvas.parentNode;
-  if(canvasTmp){canvasTmp.parentNode.removeChild(temporary);}
+  if(canvasTmp){canvasTmp.parentNode.removeChild(canvasTmp);}
   ABBDcanvas.parentNode.removeChild(ABBDcanvas);
 
   neoCanvas = document.createElement("canvas");
@@ -663,22 +779,32 @@ function clearAll(wCV,hCV){
   neoCanvas.style.height = hCV+"px";
   ABBDcanvas = container.insertBefore(neoCanvas, ABBDbrush);
 
-
   initCV(wCV,hCV);
+  backToPreviousActive();
 
+}
+
+function backToPreviousActive(){
   var iconPencil = document.getElementById("pencil");
   var iconGum = document.getElementById("gomme");
 
   if(!iconPencil.classList.contains("active") && !iconGum.classList.contains("active")){
     nodraw = true;
-    waswriting = 0;
-    var formBTDom = document.querySelector(".drawsquare, .drawcircle, .drawtrait, .drawsquarempty");
+    var waswriting = 0;
+    var wasForming = 0;
+
     var txtAreasBTDom = document.querySelectorAll(".fwABBDcanvas .p6 span");
     for(var aTxtArea of txtAreasBTDom){
       if(aTxtArea.classList.contains("active")) waswriting++;
     }
 
-    if(formBTDom.classList.contains("active")){
+    var formBTDom = document.querySelectorAll(".drawsquare, .drawcircle, .drawtrait, .drawsquarempty");
+    for(var aBTDom of formBTDom){
+      if(aBTDom.classList.contains("active")) wasForming++;
+    }
+
+    if(wasForming>0){
+      editingtxt = false;
       drawForm();
     }else if(waswriting>0){
       nodraw = true;
@@ -688,9 +814,23 @@ function clearAll(wCV,hCV){
       createtextarea = true;
       initTextarea(0,0);
     }
+
+  }else{
+    nodraw = false;//Mod dessiner
+    drawing = false;//is true only with mouse move event.
   }
 
 }
+
+// when screenshot over
+function finishScreen(){
+  var crop = document.getElementById("ABBDsurfaceScreen");
+  crop.parentNode.removeChild(crop);
+  ABBDscreenZone.classList.remove("active");
+  currentCalcul = false;
+  backToPreviousActive();
+};
+
 
 
 //* Launch everything!! *//
