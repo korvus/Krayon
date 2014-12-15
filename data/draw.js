@@ -121,7 +121,7 @@ function setColors(){
 }
 
 // Set Gum behavior
-function setGum(){
+function setGum(e){
   initSoft();
   ABBDgomme.classList.add("active");
   ABBDgomme.nextSibling.classList.remove("on","active");
@@ -133,6 +133,7 @@ function setGum(){
   startDrawForms = false;
   eraser = true;
   modefusion = "destination-out";
+  e.preventDefault();
 }
 
 function setForm(e){
@@ -144,9 +145,11 @@ function setForm(e){
   }
   e.target.classList.add("active");
   drawForm();
+  e.preventDefault();
 }
 
-function setTxt(){
+function setTxt(e){
+  e.preventDefault();
   reinitxt();
   var MultipleTools = document.querySelectorAll(".p4 a,.p5 span");
   var allFonts = document.querySelectorAll(".p6 span");
@@ -168,12 +171,13 @@ function setTxt(){
 }
 
 //Appelé lors du click sur le bouton tout effacer
-function setCleanAll(){
+function setCleanAll(e){
   var allTxtareas = document.querySelectorAll(".ABBDtxtarea");
   for(var aTextarea of allTxtareas){
     aTextarea.parentNode.removeChild(aTextarea);
   }
   clearAll(largeurcv,hauteurcv);
+  e.preventDefault();
 }
 
 function eraseALL(){
@@ -336,6 +340,7 @@ function initType(e){
   }
   typeSelected.removeEventListener("click", initType, false);
   inittools();
+  e.preventDefault();
 }
 
 function initPencilandFeutre(){
@@ -816,6 +821,7 @@ function backToPreviousActive(){
     }
 
   }else{
+    editingtxt = false;
     nodraw = false;//Mod dessiner
     drawing = false;//is true only with mouse move event.
   }
