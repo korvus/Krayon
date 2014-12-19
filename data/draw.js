@@ -1,20 +1,3 @@
-//https://bgrins.github.io/spectrum/
-//http://blogzinet.free.fr/blog/index.php?post/2013/05/17/Blocage-du-contenu-mixte-dans-Mozilla-Firefox-23-Aurora
-//https://davidsimpson.me/2013/10/10/how-to-allow-not-block-mixed-content-in-web-browsers/
-//https://bugzilla.mozilla.org/show_bug.cgi?id=886663
-// > https://bugzilla.mozilla.org/show_bug.cgi?id=866522
-// > https://bugzilla.mozilla.org/show_bug.cgi?id=1014545
-//https://www.eff.org/https-everywhere/
-//http://stackoverflow.com/questions/14367711/bookmarklet-on-https-page
-//http://content-security-policy.com/
-
-//http://dxr.mozilla.org/mozilla-central/source/toolkit/devtools/gcli/commands/screenshot.js#100-252
-//http://stackoverflow.com/questions/26525639/firefox-addon-sdk-1-17-take-screenshot
-//http://stackoverflow.com/questions/25332458/firefox-addon-api-for-taking-screenshot?rq=1
-//http://stackoverflow.com/questions/17913911/how-do-i-use-the-canvas-drawwindow-function-in-an-addon-created-using-the-addon
-
-//
-
 /*  Bookmarks */
 /* Node */
 var ABBDcanvas = "";
