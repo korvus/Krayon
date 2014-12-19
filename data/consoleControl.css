@@ -1,17 +1,17 @@
 html{/*position:relative !important;*/}
 html body #ABBDslider input{width:80px;margin:0;}
-html body .fwABBDcanvas{
-html body 	border:none;padding:0;position:absolute !important;top:0;left:0;z-index:2999999999;margin:0 !important;padding:0;box-sizing:content-box;}
+html body #fwABBDcanvas{border:none;padding:0;position:absolute !important;top:0;left:0;z-index:2999999999;margin:0 !important;padding:0;box-sizing:content-box;}
 html body .fwABBDconsolWrap{display:table;border-collapse:separate;border-spacing:10px 0px;}	
-html body .fwABBDcanvas div{margin:0;border:none;padding:0;}
+html body .ABBDhide{display:none;}
+html body #fwABBDcanvas div{margin:0;border:none;padding:0;}
 html body .fwABBDconsol{position:fixed;height:75px;display:table-cell;min-width:470px !important;max-width:470px !important;width:470px;left:0;z-index:20003;overflow:hidden;margin:0 !important;border:1px solid #fff;}
-html body .fwABBDcanvas #fwABBDwindowTemp{position:absolute;z-index:20002;left:0;top:0;}
-html body .fwABBDcanvas #fwABBDwindow{position:relative;z-index:3;}
+html body #fwABBDwindowTemp{position:absolute;z-index:20002;left:0;top:0;}
+html body #fwABBDwindow{position:relative;z-index:3;}
 html body .fwABBDconsol .colorpicker{z-index:20004;}
 html body .fwABBDconsol #colorpicker{width:44px;}
 html body #ABBDbrush{position:fixed;width:150px;height:150px;top:70px;left:0px;z-index:1;}
 html body iframe{z-index:0 !important;}
-html body .fwABBDconsol .part{padding:5px;margin:0 5px 5px;vertical-align:middle;display:table-cell;border:1px solid #000;border-top:none;background:#fff;box-sizing:content-box;}
+html body #fwABBDcanvas .fwABBDconsol .part{padding:5px;margin:0 5px 5px;vertical-align:middle;display:table-cell;border:1px solid #000;border-top:none;background:#fff;box-sizing:content-box;}
 html body .fwABBDconsol .close,
 html body .fwABBDconsol .part{border-radius:0 0 5px 5px;}
 html body .fwABBDconsol .close,
@@ -64,9 +64,6 @@ html body .fwABBDconsol .p7 span#screenshot{background-position:-20px -136px;}
 a.legend{display:block;color:#000;margin:5px 0;}
 
 /* Textarea */
-.fwABBDcanvas .ABBDtxtarea{position:absolute;top:0;left:0;z-index:10;background:transparent;border:1px dotted #000;}
+#fwABBDcanvas .ABBDtxtarea{position:absolute;top:0;left:0;z-index:10;background:transparent;border:1px dotted #000;}
 #ABBDsurfaceScreen{position:absolute;z-index:10;background:transparent;border:1px dotted #000;box-shadow:0 0 0 5000px rgba(0,0,0,0.5);}
-
-
-
 

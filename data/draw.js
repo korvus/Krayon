@@ -39,7 +39,6 @@ function on_change(){
 }
 
 function stopBrush(ctxBrush){
-  //if(editingtxt == false){nodraw = false;}else{nodraw = true;}
   ABBDslider.removeEventListener("mousemove", on_change, true);
   ABBDslider.removeEventListener("change", stopBrush, true);
   
@@ -59,7 +58,7 @@ function previsuBrush(){
   ABBDslider.addEventListener("mousemove", on_change, true);
 }
 
-function offset(elt) {
+function offset(elt){
   var rect = elt.getBoundingClientRect(), bodyElt = document.body;
   return {
       top: rect.top + bodyElt.scrollTop,
@@ -164,16 +163,13 @@ function setCleanAll(e){
 }
 
 function eraseALL(){
-  var allAddTheAddon = document.querySelector(".fwABBDcanvas");
+  var allAddTheAddon = document.getElementById("fwABBDcanvas");
   allAddTheAddon.parentNode.removeChild(allAddTheAddon);
-  ABBDcanvas.removeEventListener("mousedown", on_mousedown, true);
-  ABBDcanvas.removeEventListener("mousemove", on_mousemove, true);
-  ABBDcanvas.removeEventListener(  "mouseup", on_mouseup  , true);
 }
 
 function defineBehavior(params){
   //Si on appuie alors que l'interface est déjà présente
-  if(document.querySelector(".fwABBDcanvas")){
+  if(document.getElementById("fwABBDcanvas")){
     eraseALL();
   }else{
     runthis(params);
@@ -184,7 +180,12 @@ function defineBehavior(params){
 
 function takeFScreenShot(){
   heightTotal = document.body.scrollHeight;
-  self.port.emit('takeascreen', heightTotal);
+  thisConsole = ABBDconsole;
+  var params = {
+    "heightTotal":heightTotal
+  }
+  ABBDconsole.classList.add("ABBDhide");
+  self.port.emit('takeascreen', params);
 }
 
 
@@ -270,7 +271,7 @@ function setScreen(){
 function runNext(){
 
   ABBDcanvas = document.getElementById("fwABBDwindow");
-  ABBDconsole = document.querySelector(".fwABBDcanvas");
+  ABBDconsole = document.getElementById("fwABBDcanvas");
   ABBDbrush = document.getElementById("ABBDbrush");
   ABBDslider = document.getElementById("ABBDslider");
   ABBDcolorpicker = document.getElementById("colorpicker");
@@ -352,7 +353,7 @@ function inittools(){
 
 //remove textarea behind
 function reinitxt(){
-  txtareas = document.querySelectorAll(".fwABBDcanvas .ABBDtxtarea");
+  txtareas = document.querySelectorAll("#fwABBDcanvas .ABBDtxtarea");
   for(var txtarea of txtareas){
     txtarea.style.zIndex = 2;
     txtarea.style.border = "none";
@@ -476,7 +477,7 @@ function addCSS(source){
 function runthis(dataFromPlugin){
   var wrapper = document.createElement('div');
 
-	wrapper.innerHTML= '<div class="fwABBDcanvas">'+
+	wrapper.innerHTML= '<div id="fwABBDcanvas">'+
   '<div class="fwABBDconsolWrap">'+
   '<div class="fwABBDconsol">'+
       '<div class="part p1">'+
@@ -661,7 +662,6 @@ function initTimes(e){
 }
 
 function setFieldFocus(){
-  console.log(document.getElementById("thisActive"));
   if(document.getElementById("thisActive")){
     currentField = document.getElementById("thisActive");
     currentField.style.fontFamily = ffamily;
@@ -820,6 +820,10 @@ function finishScreen(){
   backToPreviousActive();
 };
 
+self.port.on("displayABBDconsole",function(){
+  ABBDconsole = document.getElementById("fwABBDcanvas");
+  ABBDconsole.classList.remove("ABBDhide");
+})
 
 
 //* Launch everything!! *//
