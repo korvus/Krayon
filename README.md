@@ -1,7 +1,7 @@
 # Krayon
 **Krayon is in Alpha. Be indulgent. It allow you to draw and write over any website, and save your creations and recreations!**
 
-![This is Krayon!](http://annuaireblogbd.com/krayon/korvuskrayon-5-11-2014-266.png)  
+![This is Krayon!](http://annuaireblogbd.com/krayon/r/i/plugin.png)  
 
 ### What is it
 It create a canvas in the current firefox tab you browser, and allow you to draw, or write over it. You can save screenshot of full page or part of it.
