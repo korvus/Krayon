@@ -1,1 +1,2 @@
-#fwABBDconsol{top:0px;}
+html body #fwABBDcanvas .fwABBDconsol{top:0px;}
+html body #fwABBDcanvas .fwABBDconsol .part{border-top:none;border-radius:0 0 5px 5px;}

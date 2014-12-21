@@ -1,19 +1,19 @@
 html{/*position:relative !important;*/}
 html body #ABBDslider input{width:80px;margin:0;}
-html body #fwABBDcanvas{border:none;padding:0;position:absolute !important;top:0;left:0;z-index:2999999999;margin:0 !important;padding:0;box-sizing:content-box;}
+html body #fwABBDcanvas{border:none;padding:0;position:absolute !important;top:0;left:0;z-index:2999999999;margin:0 !important;padding:0;box-sizing:content-box;height:75px;}
 html body .fwABBDconsolWrap{display:table;border-collapse:separate;border-spacing:10px 0px;}	
 html body .ABBDhide{display:none;}
 html body #fwABBDcanvas div{margin:0;border:none;padding:0;}
-html body .fwABBDconsol{position:fixed;height:75px;display:table-cell;min-width:470px !important;max-width:470px !important;width:470px;left:0;z-index:20003;overflow:hidden;margin:0 !important;border:1px solid #fff;}
+html body .fwABBDconsol{position:fixed;height:75px;display:table-cell;min-width:480px !important;max-width:470px !important;width:470px;left:0;z-index:20003;overflow:hidden;margin:0 !important;border:1px solid #fff;}
 html body #fwABBDwindowTemp{position:absolute;z-index:20002;left:0;top:0;}
 html body #fwABBDwindow{position:relative;z-index:3;}
 html body .fwABBDconsol .colorpicker{z-index:20004;}
 html body .fwABBDconsol #colorpicker{width:44px;}
 html body #ABBDbrush{position:fixed;width:150px;height:150px;top:70px;left:0px;z-index:1;}
 html body iframe{z-index:0 !important;}
-html body #fwABBDcanvas .fwABBDconsol .part{padding:5px;margin:0 5px 5px;vertical-align:middle;display:table-cell;border:1px solid #000;border-top:none;background:#fff;box-sizing:content-box;}
+html body #fwABBDcanvas .fwABBDconsol .part{padding:5px;margin:0 5px 5px;vertical-align:middle;display:table-cell;border:1px solid #000;background:#fff;box-sizing:content-box;}
 html body .fwABBDconsol .close,
-html body .fwABBDconsol .part{border-radius:0 0 5px 5px;}
+html body .fwABBDconsol .part{}
 html body .fwABBDconsol .close,
 html body .fwABBDconsol .part{box-shadow:0px 0px 5px #888;}
 html body .fwABBDconsol .part .legend{font-size:10px;background:#fff;font-family:Arial;}

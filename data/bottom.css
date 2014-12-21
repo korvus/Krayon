@@ -1,2 +1,6 @@
-#fwABBDconsol{bottom:0px;vertical-align:bottom;}
-#fwABBDconsol .part{margin:0px 5px 0 5px;padding:2px 10px 2px;border:1px solid #000;border-bottom:none;border-radius:5px 5px 0 0;}
+html body #fwABBDcanvas .fwABBDconsol{bottom:0px;vertical-align:middle;height:70px;}
+html body #fwABBDcanvas .fwABBDconsol .part{border-bottom:none;border-radius:5px 5px 0 0;margin:0px 5px 0 5px;}
+/*
+html body #fwABBDcanvas .fwABBDconsol .part{padding:2px 10px 2px;vertical-align:top;height:75px;}
+html body #fwABBDcanvas .fwABBDconsol .p5{width:200px !important;}
+html body #fwABBDcanvas .fwABBDconsol .p5 span{}*/
