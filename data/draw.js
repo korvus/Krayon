@@ -14,6 +14,9 @@
   var Krayonclean = "";
   var Krayonfullscreen = "";
   var KrayonscreenZone = "";
+  var allTools = "";
+  var IconCrayon = false;
+  var IconFeutre = false;
   
   /* Variables */
   var nodraw = 0;
@@ -42,6 +45,7 @@
   var realCalculation = false;
   var editingtxt = false;
   var ffamily = "Times, serif";
+  var placeholderTXT = "";
 
   /* Screenshot Area */
   var createScreenShot = false;
@@ -67,6 +71,7 @@
       }
     }
 
+    Krayonbrush.style.zIndex = 0;
     nodraw = editingtxt !== false;
     ctxBrush.clearRect(0,0,200,200);
   }
@@ -137,8 +142,7 @@
 
   function setForm(e){
     initSoft();
-    var MultipleTools = document.querySelectorAll(".p5 span,.p4 a, .p6 a");
-    for(var MultipleTool of MultipleTools){
+    for(var MultipleTool of allTools){
       MultipleTool.classList.remove("active");
       MultipleTool.classList.remove("on");
     }
@@ -147,12 +151,19 @@
     e.preventDefault();
   }
 
+  function unsetTxt(){
+    var allFonts = document.querySelectorAll(".p6 span");
+    for(var fontBT of allFonts){
+      fontBT.classList.add("hide");
+    }
+    Krayonentertxt.classList.remove("active");
+  }
+
   function setTxt(e){
     e.preventDefault();
     reinitxt();
-    var MultipleTools = document.querySelectorAll(".p4 a,.p5 span");
     var allFonts = document.querySelectorAll(".p6 span");
-    for(var MultipleTool of MultipleTools){
+    for(var MultipleTool of allTools){
       MultipleTool.classList.remove("active");
       MultipleTool.classList.remove("on");
     }
@@ -272,7 +283,6 @@
   }
 
   function setScreen(){
-
     initSoftTxt();
     nodraw = true;
     drawing = false;
@@ -292,11 +302,15 @@
     Krayonslider = document.getElementById("Krayonslider");
     Krayoncolorpicker = document.getElementById("colorpicker");
     Krayongomme = document.getElementById("gomme");
-    Krayonforms = document.querySelectorAll(".p5 span");
     Krayonentertxt = document.getElementById("entertext");
     Krayonclean = document.getElementById("eraseall");
     Krayonfullscreen = document.getElementById("fullscreenshot");
     KrayonscreenZone = document.getElementById("screenshot");
+    KrayonscreenZone = document.getElementById("screenshot");
+    Krayonforms = document.querySelectorAll(".p5 span");
+    allTools = document.querySelectorAll(".p5 span,.p4 a, .p6 a");
+    IconCrayon = document.querySelector(".p4 #pencil.crayon");
+    IconFeutre = document.querySelector(".p4 #pencil.feutre");
 
     hauteurcv = document.documentElement.scrollHeight;
     largeurcv = document.documentElement.scrollWidth;
@@ -316,14 +330,15 @@
     Krayonfullscreen.addEventListener("click",takeFScreenShot, true);
     KrayonscreenZone.addEventListener("click",setScreen, true);
     inittools();
-    
+
     for(var Krayonform of Krayonforms){
       Krayonform.addEventListener("click", setForm, true);
     }
 
   }
 
-  function initType(e){
+
+  function pencil(e){
     initSoft();
     var typeSelected = e.target;
     typeSelected.classList.add("active");
@@ -338,21 +353,19 @@
     }else{
       typeSelected.classList.add("on");
     }
-    typeSelected.removeEventListener("click", initType, false);
+    typeSelected.removeEventListener("click", pencil, false);
     inittools();
     e.preventDefault();
   }
 
-  function initPencilandFeutre(){
-    var IconCrayon = document.querySelector(".p4 #pencil.crayon");
-    var IconFeutre = document.querySelector(".p4 #pencil.feutre");
 
+  function initPencilandFeutre(){
     if(IconCrayon){IconCrayon.usethisclass = 'feutre';IconCrayon.notthisone = 'crayon';}
     if(IconFeutre){IconFeutre.usethisclass = 'crayon';IconFeutre.notthisone = 'feutre';}
 
     //passer en mode carré
-    if(IconCrayon) IconCrayon.addEventListener('click', initType, true);
-    if(IconFeutre) IconFeutre.addEventListener('click', initType, true);
+    if(IconCrayon) IconCrayon.addEventListener('click', pencil, true);
+    if(IconFeutre) IconFeutre.addEventListener('click', pencil, true);
   }
 
   function inittools(){
@@ -489,6 +502,8 @@
   function runthis(dataFromPlugin){
     var wrapper = document.createElement('div');
 
+    placeholderTXT = dataFromPlugin[2].placeholder;
+
     wrapper.innerHTML= '<div id="fwKrayoncanvas">'+
     '<div class="fwKrayonconsolWrap">'+
     '<div class="fwKrayonconsol">'+
@@ -552,6 +567,9 @@
     canvasTemp.height = Krayoncanvas.height;
     container.appendChild(canvasTemp);
 
+    createtextarea = false;
+    editingtxt = false;
+
     exa = Krayoncolorpicker.value;
 
     canvasTemp.addEventListener("mousedown", startShape, true);
@@ -574,7 +592,6 @@
   function CalculShape(e){
     if(startDrawForms === true){
       var CurPos = transform_event_coord(e);
-      //ctx = e.target.getContext("2d");
 
       var BTdrawsquare = document.querySelector(".fwKrayonconsol .drawsquare");
       var BTdrawcircle = document.querySelector(".fwKrayonconsol .drawcircle");
@@ -704,14 +721,13 @@
     txtareaNode.style.height = (pntTo.y-txtpntFromy)+"px";
   }
 
-  function finishTxtArea(){
+  function finishTxtArea(e){
     var KrayonpseudoTxtAra = document.getElementById("Krayonenteringtxt");
-    Krayonconsole.removeEventListener("mousemove", createTxtArea, false);
-    Krayonconsole.removeEventListener("mouseup", finishTxtArea, false);
+    Krayonconsole.removeEventListener("mousemove", createTxtArea, true);
+    Krayonconsole.removeEventListener("mouseup", finishTxtArea, true);
     realCalculation = false;
     createtextarea = false;
     editingtxt = true;
-
     var txtawidth = KrayonpseudoTxtAra.offsetWidth;
     var txtaheight = KrayonpseudoTxtAra.offsetHeight;
     //http://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
@@ -723,7 +739,7 @@
     var newTxtarea = document.createElement("textarea");
     newTxtarea.id = "thisActive";
     newTxtarea.classList.add("Krayontxtarea");
-    newTxtarea.placeholder = "Entrez ici votre texte";
+    newTxtarea.placeholder = placeholderTXT;
     newTxtarea.style.cssText = 'width:'+txtawidth+'px !important;color:'+exa+';font-size:'+sizeTxt+'px;height:'+txtaheight+'px !important;top:'+topTxtarea+'px;left:'+leftTxtarea+'px;';
     KrayonpseudoTxtAra.parentNode.replaceChild(newTxtarea,KrayonpseudoTxtAra);
     newTxtarea.focus();
@@ -804,7 +820,6 @@
       }
 
       if(wasForming>0){
-        editingtxt = false;
         drawForm();
       }else if(waswriting>0){
         nodraw = true;
