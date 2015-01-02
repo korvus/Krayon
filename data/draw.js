@@ -205,6 +205,9 @@
 
   }
 
+  var displayKrayonconsole = function(){
+    Krayonconsole.classList.remove("Krayonhide");
+  }
 
   function takeFScreenShot(){
     heightTotal = document.body.scrollHeight;
@@ -213,6 +216,7 @@
     };
     Krayonconsole.classList.add("Krayonhide");
     self.port.emit('takeascreen', params);
+    setTimeout(displayKrayonconsole,1000);
   }
 
 
@@ -846,11 +850,6 @@
     currentCalcul = false;
     backToPreviousActive();
   }
-
-  self.port.on("displayKrayonconsole",function(){
-    Krayonconsole = document.getElementById("fwKrayoncanvas");
-    Krayonconsole.classList.remove("Krayonhide");
-  });
 
 
   //* Launch everything!! *//
