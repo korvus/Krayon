@@ -142,6 +142,7 @@
 
   function setForm(e){
     initSoft();
+    initFontBt();
     for(var MultipleTool of allTools){
       MultipleTool.classList.remove("active");
       MultipleTool.classList.remove("on");
@@ -380,8 +381,16 @@
     for(var nodeForm of nodeForms){
       nodeForm.classList.remove("active");
     }
-
+    initFontBt();
     initPencilandFeutre();
+  }
+
+  function initFontBt(){
+    var allFonts = document.querySelectorAll(".p6 span");
+    for(var font of allFonts){
+      font.classList.add("hide");
+    }
+    Krayonentertxt.classList.remove("active");
   }
 
   //remove textarea behind

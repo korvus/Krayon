@@ -41,7 +41,7 @@ html body .fwKrayonconsol .p6 a:hover,
 html body .fwKrayonconsol .p6 .active{background-color:#f5f22b;}
 html body .fwKrayonconsol .p6 span.hide{display:none;}
 html body .fwKrayonconsol .p6 span.active{background-color:#F5F22B;}
-html body .fwKrayonconsol .p6 span{float:left;margin:8px 4px 0 0;width:10px;height:9px;text-indent:-9999px;background:url(i/pencil.png) 0 0 no-repeat;cursor:pointer;}
+html body .fwKrayonconsol .p6 span{display:block;margin:8px auto;width:10px;height:9px;text-indent:-9999px;background:url(i/pencil.png) 0 0 no-repeat;cursor:pointer;}
 html body .fwKrayonconsol .p6 #KrayonTimes{background-position:-3px -118px;}
 html body .fwKrayonconsol .p6 #KrayonArial{background-position:-10px -118px;}
 html body .fwKrayonconsol .colorpicker{z-index:3;}
