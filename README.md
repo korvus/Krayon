@@ -71,6 +71,4 @@ Like it's HXS, you have to make a callback. If you output an url, the plugin wil
 
 License
 ----
-MIT
-
-
+[MPL 2.0](https://www.mozilla.org/MPL/2.0/)

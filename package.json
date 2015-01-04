@@ -4,8 +4,9 @@
   "id": "jid1-1269JvYFBgj1Wg",
   "icon": "data/i/icon-32.png",
   "icon64": "data/i/icon-64.png",
-  "description": "Allow to overdraw a webpage and to take a screenshot on it.",
-  "author": "korvus",
+  "description": "Allow to overwrite a webpage and to take a screenshot on it.",
+  "author": "Simon Ertel",
+  "translators": ["Simon Ertel","Iryna Lystopad"],
   "license": "MPL 2.0",
   "version": "0.1",
   "preferences": [{
