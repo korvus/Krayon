@@ -19,6 +19,7 @@
   var IconFeutre = false;
   
   /* Variables */
+  var nDomTool = {};
   var nodraw = 0;
   var drawing = false;
   var lastpos = {x:-1,y:-1};
@@ -129,7 +130,7 @@
     initSoft();
     Krayongomme.classList.add("active");
     Krayongomme.nextSibling.classList.remove("on","active");
-    var othersNodesTool = document.querySelectorAll(".drawtrait, .drawsquare, .drawcircle, .p6 a");
+    var othersNodesTool = document.querySelectorAll(".drawtrait, .drawsquare, .drawcircle, .p6 span");
     for(var nodeTool of othersNodesTool){
       nodeTool.classList.remove("active");
     }
@@ -152,8 +153,16 @@
     e.preventDefault();
   }
 
+  function initFontBt(){
+    var allFonts = document.querySelectorAll("#KrayonTimes, #KrayonArial");
+    for(var font of allFonts){
+      font.classList.add("hide");
+    }
+    Krayonentertxt.classList.remove("active");
+  }
+
   function unsetTxt(){
-    var allFonts = document.querySelectorAll(".p6 span");
+    var allFonts = document.querySelectorAll("#KrayonTimes, #KrayonArial");
     for(var fontBT of allFonts){
       fontBT.classList.add("hide");
     }
@@ -197,11 +206,11 @@
   }
 
   function defineBehavior(params){
-    //Si on appuie alors que l'interface est déjà présente
+    //If already in the page
     if(document.getElementById("fwKrayoncanvas")){
       eraseALL();
     }else{
-      runthis(params);
+      createConsole(params);
     }
 
   }
@@ -313,7 +322,7 @@
     KrayonscreenZone = document.getElementById("screenshot");
     KrayonscreenZone = document.getElementById("screenshot");
     Krayonforms = document.querySelectorAll(".p5 span");
-    allTools = document.querySelectorAll(".p5 span,.p4 a, .p6 a");
+    allTools = document.querySelectorAll(".p5 span,.p4 span, .p6 span");
     IconCrayon = document.querySelector(".p4 #pencil.crayon");
     IconFeutre = document.querySelector(".p4 #pencil.feutre");
 
@@ -383,14 +392,6 @@
     }
     initFontBt();
     initPencilandFeutre();
-  }
-
-  function initFontBt(){
-    var allFonts = document.querySelectorAll(".p6 span");
-    for(var font of allFonts){
-      font.classList.add("hide");
-    }
-    Krayonentertxt.classList.remove("active");
   }
 
   //remove textarea behind
@@ -501,6 +502,31 @@
     }
   }
 
+  function deployConsole(nConsole, aDom){
+
+    for(var nN=0,nnNode=aDom.length; nN < nnNode; nN++){
+      nDomTool["nTool"+nN] = document.createElement('li');
+      nDomTool["nTool"+nN].setAttribute("class", "part p"+nN);
+      nConsole.appendChild(nDomTool["nTool"+nN]);
+      for(var nNa=0,nnNa=aDom[nN][0].length; nNa < nnNa; nNa++){
+        nDomTool["nTool"+nN]["nToolAtom"+nNa] = document.createElement(aDom[nN][0][nNa]);
+        if(aDom[nN][1][nNa].length>1) nDomTool["nTool"+nN]["nToolAtom"+nNa].setAttribute("id",aDom[nN][1][nNa]);
+        if(aDom[nN][2][nNa].length>1) nDomTool["nTool"+nN]["nToolAtom"+nNa].setAttribute("class",aDom[nN][2][nNa]);
+        if(aDom[nN][3][nNa].length>1) nDomTool["nTool"+nN]["nToolAtom"+nNa].setAttribute("title",aDom[nN][3][nNa]);
+        if(aDom[nN][4][nNa].content){
+          let sTxt = document.createTextNode(aDom[nN][4][nNa].content);
+          nDomTool["nTool"+nN]["nToolAtom"+nNa].appendChild(sTxt);
+        }else{
+          let sTxt = document.createTextNode("work in progress");
+          nDomTool["nTool"+nN]["nToolAtom"+nNa].appendChild(sTxt);
+        }
+        nDomTool["nTool"+nN].appendChild(nDomTool["nTool"+nN]["nToolAtom"+nNa]);
+        //console.log(aDom[nN][4][nNa]);
+      }
+      //console.log(aDom[nN][0]);
+    }
+  }
+
   function addCSS(source){
     var head = document.getElementsByTagName('HEAD')[0];
     var css = document.createElement('link');
@@ -511,65 +537,45 @@
     head.appendChild(css);
   }
 
-
-  function runthis(dataFromPlugin){
-    var wrapper = document.createElement('div');
+  function createConsole(dataFromPlugin){
 
     placeholderTXT = dataFromPlugin[2].placeholder;
 
+    /* https://developer.mozilla.org/fr/docs/DOM/document.createDocumentFragment */
+    var nMaster = document.createElement('section');
+    nMaster.setAttribute("id", "fwKrayoncanvas");
+    document.body.appendChild(nMaster);
+
+    var nOverlay = document.createElement('div');
+    nOverlay.setAttribute("class", "fwKrayonconsolWrap");
+    nMaster.appendChild(nOverlay);
+
+    var nConsole = document.createElement('menu');
+    nConsole.setAttribute("class", "fwKrayonconsol");
+    nConsole.setAttribute("type", "toolbar");
+    nOverlay.appendChild(nConsole);
+
+    deployConsole(nConsole, dataFromPlugin[4]);
+
+
+/*
     wrapper.innerHTML= ''+
     '<div id="fwKrayoncanvas">'+
       '<div class="fwKrayonconsolWrap">'+
         '<div class="fwKrayonconsol">'+
-          '<div class="part p1">'+
-              '<span class="legend">'+dataFromPlugin[2].size_id+' :</span>'+
-              '<div id="Krayonslider">'+
-                  '<input type="range" min="1" max="150" value="1" />'+
-              '</div>'+
-          '</div>'+
-          '<div class="part p2">'+
-              '<span class="legend">'+dataFromPlugin[2].color_id+' :</span>'+
-              '<div class="cp"><input type="color" name="colorpicker" id="colorpicker"></div>'+
-          '</div>'+
-          '<div class="part p4">'+
-              '<a href="#" title="'+dataFromPlugin[2].mod_ttl_gum_id+'" id="gomme" class="off">'+dataFromPlugin[2].mod_gomme_id+'</a>'+
-              '<a href="#" id="pencil" class="on active crayon">'+dataFromPlugin[2].mod_write_id+'</a>'+
-          '</div>'+
-          '<div class="part p5">'+
-              '<span title="'+dataFromPlugin[2].mod_ttl_square_id+'" class="drawsquare">'+dataFromPlugin[2].mod_fullsquare_id+'</span>'+
-              '<span title="'+dataFromPlugin[2].mod_ttl_circle_id+'" class="drawcircle">'+dataFromPlugin[2].mod_circle_id+'</span>'+
-              '<span title="'+dataFromPlugin[2].mod_ttl_trait_id+'" class="drawtrait">'+dataFromPlugin[2].mod_trait_id+'</span>'+
-              '<span title="'+dataFromPlugin[2].mod_ttl_emptySquare_id+'" class="drawsquarempty">'+dataFromPlugin[2].mod_emptysquare_id+'</span>'+
-          '</div>'+
-          '<div class="part p6">'+
-              '<span class="hide" title="'+dataFromPlugin[2].mod_sansserif_id+'" id="KrayonTimes">'+dataFromPlugin[2].mod_sansserif_id+'</span>'+
-              '<span class="hide" title="'+dataFromPlugin[2].mod_serif_id+'" id="KrayonArial">'+dataFromPlugin[2].mod_serif_id+'</span>'+
-              '<a href="#" id="entertext">'+dataFromPlugin[2].mod_entertext_id+'</a>'+
-          '</div>'+
-          '<div class="part p7">'+
-              '<span class="" title="'+dataFromPlugin[2].mod_screenshot+'" id="screenshot">'+dataFromPlugin[2].mod_screenshot+'</span>'+
-              '<span class="" title="'+dataFromPlugin[2].mod_fullscreenshot+'" id="fullscreenshot">'+dataFromPlugin[2].mod_fullscreenshot+'</span>'+
-          '</div>'+
-          '<div class="part p3">'+
-              '<a href="#" id="eraseall" class="legend">'+dataFromPlugin[2].mod_erraseall_id+'</a>'+
-          '</div>'+
+
         '</div>'+
       '</div>'+
       '<canvas id="fwKrayonwindow"></canvas>'+
       '<canvas id="Krayonbrush" height="150" width="150"></canvas>'+
     '</div>';
+*/
 
-    var canevas = wrapper.firstChild;
-    document.body.appendChild(canevas);
     addCSS(dataFromPlugin[0]);
     if(dataFromPlugin[3] != 'undefined'){
       addCSS(dataFromPlugin[3]);
     }
-    runNext();
-
-    /*
-    $b("embed").attr('wmode','transparent');
-    */
+    //runNext();
 
   }
 
