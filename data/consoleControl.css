@@ -4,11 +4,13 @@ html body #fwKrayoncanvas{display:block;border:none;padding:0;position:absolute 
 html body .fwKrayonconsolWrap{display:table;border-collapse:separate;border-spacing:10px 0px;}	
 html body .Krayonhide .fwKrayonconsol{display:none;}
 html body #fwKrayoncanvas div{margin:0;border:none;padding:0;}
-html body .fwKrayonconsol{position:fixed;height:75px;display:table-cell;min-width:480px !important;max-width:470px !important;width:470px;left:0;z-index:20003;overflow:hidden;margin:0 !important;border:1px solid #fff;}
+
+html body .fwKrayonconsol{position:fixed;height:75px;display:table-cell;left:0;z-index:20003;overflow:hidden;margin:0 !important;border:1px solid #fff;padding-left:0;}
 html body #fwKrayonwindowTemp{position:absolute;z-index:20002;left:0;top:0;}
 html body #fwKrayonwindow{position:relative;z-index:3;}
+
 html body .fwKrayonconsol .colorpicker{z-index:20004;}
-html body .fwKrayonconsol #colorpicker{width:44px;}
+html body .fwKrayonconsol #krayonColorpicker{width:44px;}
 html body #Krayonbrush{position:fixed;width:150px;height:150px;top:70px;left:0px;z-index:1;}
 html body iframe{z-index:0 !important;}
 html body #fwKrayoncanvas .fwKrayonconsol .part{padding:5px;margin:0 5px 5px;vertical-align:middle;display:table-cell;border:1px solid #000;background:#fff;box-sizing:content-box;}
@@ -17,40 +19,50 @@ html body .fwKrayonconsol .part{}
 html body .fwKrayonconsol .close,
 html body .fwKrayonconsol .part{box-shadow:0px 0px 5px #888;}
 html body .fwKrayonconsol .part .legend{font-size:10px;background:#fff;font-family:Arial;}
+html body .fwKrayonconsol .p2 span:focus,
+html body .fwKrayonconsol .p2 span:hover{background:#f5f22b;}
+html body .fwKrayonconsol .p5 span{background:url(i/pencil.png) 0 0 no-repeat;}
+
+/* Pencil & gum */
+html body .fwKrayonconsol .p3 span{display:block;width:26px;height:25px;text-indent:-9999px;overflow:hidden;background:url(i/pencil.png) 0 0 no-repeat;}
+html body .fwKrayonconsol #KrayonGum{background-position:8px 5px;border-bottom:1px dotted #fff;}
+html body .fwKrayonconsol .p3 span.pencil{background-position:8px -25px;}
+html body .fwKrayonconsol .p3 span.feutre{background-position:-23px -27px;}
+html body .fwKrayonconsol .p3 span:hover,
 html body .fwKrayonconsol .p3 span:focus,
-html body .fwKrayonconsol .p3 span:hover{background:#f5f22b;}
-html body .fwKrayonconsol .p4 span{display:block;width:26px;height:25px;text-indent:-9999px;overflow:hidden;background:url(i/pencil.png) 0 0 no-repeat;}
-html body .fwKrayonconsol .p6 span{background:url(i/pencil.png) 0 0 no-repeat;}
-html body .fwKrayonconsol .p4 span#gomme{background-position:8px 5px;border-bottom:1px dotted #fff;}
-html body .fwKrayonconsol .p4 span.crayon{background-position:8px -25px;}
-html body .fwKrayonconsol .p4 span.feutre{background-position:-23px -27px;}
+html body .fwKrayonconsol .p3 span.active{background-color:#f5f22b;}
+
+/* Shapes */
+html body .fwKrayonconsol .p4{width:52px;}
+html body .fwKrayonconsol .p4 span{display:inline-block;width:26px;height:25px;text-indent:-9999px;overflow:hidden;background:url(i/pencil.png) 0 0 no-repeat;}
+html body .fwKrayonconsol .p4 span.active,
 html body .fwKrayonconsol .p4 span:hover,
-html body .fwKrayonconsol .p4 span:focus,
-html body .fwKrayonconsol .p4 span.active{background-color:#f5f22b;}
-html body .fwKrayonconsol .p5{width:52px;}
-html body .fwKrayonconsol .p5 span{display:inline-block;width:26px;height:25px;text-indent:-9999px;overflow:hidden;background:url(i/pencil.png) 0 0 no-repeat;}
-html body .fwKrayonconsol .p5 span.active,
-html body .fwKrayonconsol .p5 span:hover,
-html body .fwKrayonconsol .p5 span:focus{background-color:#f5f22b;cursor:pointer;}
-html body .fwKrayonconsol .p5 span.drawtrait{background-position:5px -72px;}
-html body .fwKrayonconsol .p5 span.drawsquarempty{background-position:5px -50px;}
-html body .fwKrayonconsol .p5 span.drawsquare{background-position:-21px -70px;}
-html body .fwKrayonconsol .p5 span.drawcircle{background-position:-21px -50px;}
-html body .fwKrayonconsol .p6 #entertext{float:left;width:23px;height:11px;margin:7px 0 4px;background-position:-5px -101px;text-indent:-9999px;overflow:hidden;}
-html body .fwKrayonconsol .p6 a:hover,
+html body .fwKrayonconsol .p4 span:focus{background-color:#f5f22b;cursor:pointer;}
+html body .fwKrayonconsol .p4 span.drawtrait{background-position:5px -72px;}
+html body .fwKrayonconsol .p4 span.drawsquarempty{background-position:5px -50px;}
+html body .fwKrayonconsol .p4 span.drawsquare{background-position:-21px -70px;}
+html body .fwKrayonconsol .p4 span.drawcircle{background-position:-21px -50px;}
+
+/* Fonts */
+html body .fwKrayonconsol .p5 #entertext{float:left;width:23px;height:11px;margin:7px 0 4px;background-position:-5px -101px;text-indent:-9999px;overflow:hidden;}
+html body .fwKrayonconsol .p5 a:hover,
+html body .fwKrayonconsol .p5 .active{background-color:#f5f22b;}
+html body .fwKrayonconsol .p5 span.hide{display:none;}
+html body .fwKrayonconsol .p5 span.active{background-color:#F5F22B;}
+html body .fwKrayonconsol .p5 span{display:block;margin:8px auto;width:10px;height:9px;text-indent:-9999px;background:url(i/pencil.png) 0 0 no-repeat;cursor:pointer;}
+html body .fwKrayonconsol .p5 #KrayonTimes{background-position:-3px -118px;}
+html body .fwKrayonconsol .p5 #KrayonArial{background-position:-10px -118px;}
+
+/* Screenshot */
+html body .fwKrayonconsol .p6 span{display:block;overflow:hidden;margin:5px 0;text-indent:-9999px;width:19px;height:16px;overflow:hidden;background:url(i/pencil.png) -1px -136px no-repeat;cursor:pointer;}
+html body .fwKrayonconsol .p6 span:hover,
 html body .fwKrayonconsol .p6 .active{background-color:#f5f22b;}
-html body .fwKrayonconsol .p6 span.hide{display:none;}
-html body .fwKrayonconsol .p6 span.active{background-color:#F5F22B;}
-html body .fwKrayonconsol .p6 span{display:block;margin:8px auto;width:10px;height:9px;text-indent:-9999px;background:url(i/pencil.png) 0 0 no-repeat;cursor:pointer;}
-html body .fwKrayonconsol .p6 #KrayonTimes{background-position:-3px -118px;}
-html body .fwKrayonconsol .p6 #KrayonArial{background-position:-10px -118px;}
+html body .fwKrayonconsol .p6 span#screenshot{background-position:-20px -136px;}
+
 html body .fwKrayonconsol .colorpicker{z-index:3;}
 html body .fwKrayonconsol .close{float:left;margin-top:0;border:1px solid #000;border-top:none;padding:0 10px 5px;color:#000;background:#fff;font-size:18px;text-decoration:none;font-weight:bold;}
 html body .fwKrayonconsol .close:hover{background-color:#f5f22b;}
-html body .fwKrayonconsol .p7 span{display:block;overflow:hidden;margin:5px 0;text-indent:-9999px;width:19px;height:16px;overflow:hidden;background:url(i/pencil.png) -1px -136px no-repeat;cursor:pointer;}
-html body .fwKrayonconsol .p7 span:hover,
-html body .fwKrayonconsol .p7 .active{background-color:#f5f22b;}
-html body .fwKrayonconsol .p7 span#screenshot{background-position:-20px -136px;}
+
 
 #thisActive{border:2px dotted #000;}
 #thisActive:focus{outline:20px solid rgba(255, 255, 0, 0.5);background-color:rgba(255,255,255,0.5);}

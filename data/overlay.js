@@ -18,8 +18,10 @@
   var IconCrayon = false;
   var IconFeutre = false;
   
-  /* Variables */
+  /* Nodes */
   var nDomTool = {};
+
+  /* Variables */
   var nodraw = 0;
   var drawing = false;
   var lastpos = {x:-1,y:-1};
@@ -308,23 +310,23 @@
     takeScreenShotZ();
   }
 
-  function runNext(){
+  function initEvents(){
 
     Krayoncanvas = document.getElementById("fwKrayonwindow");
     Krayonconsole = document.getElementById("fwKrayoncanvas");
     Krayonbrush = document.getElementById("Krayonbrush");
     Krayonslider = document.getElementById("Krayonslider");
-    Krayoncolorpicker = document.getElementById("colorpicker");
-    Krayongomme = document.getElementById("gomme");
+    Krayoncolorpicker = document.getElementById("krayonColorpicker");
+    Krayongomme = document.getElementById("KrayonGum");
     Krayonentertxt = document.getElementById("entertext");
     Krayonclean = document.getElementById("eraseall");
     Krayonfullscreen = document.getElementById("fullscreenshot");
     KrayonscreenZone = document.getElementById("screenshot");
     KrayonscreenZone = document.getElementById("screenshot");
-    Krayonforms = document.querySelectorAll(".p5 span");
-    allTools = document.querySelectorAll(".p5 span,.p4 span, .p6 span");
-    IconCrayon = document.querySelector(".p4 #pencil.crayon");
-    IconFeutre = document.querySelector(".p4 #pencil.feutre");
+    Krayonforms = document.querySelectorAll(".p4 span");
+    allTools = document.querySelectorAll(".p3 span,.p4 span, .p5 span");
+    IconCrayon = document.querySelector(".p3 #pencil.pencil");
+    IconFeutre = document.querySelector(".p3 #pencil.feutre");
 
     hauteurcv = document.documentElement.scrollHeight;
     largeurcv = document.documentElement.scrollWidth;
@@ -502,11 +504,28 @@
     }
   }
 
-  function deployConsole(nConsole, aDom){
+  function createSizeInputNode(){
+    let nSize = document.createElement("input");
+    nSize.setAttribute("type","range");
+    nSize.setAttribute("min","1");
+    nSize.setAttribute("max","150");
+    nSize.setAttribute("value","1");
+    nSize.setAttribute("name","krayonSize");
+    return nSize;
+  }
 
+  function createColorInputNode(){
+    let nColor = document.createElement("input");
+    nColor.setAttribute("type","color");
+    nColor.setAttribute("id","krayonColorpicker");
+    nColor.setAttribute("name","krayonColorpicker");
+    return nColor;
+  }
+
+  function deployConsole(nConsole, aDom){
     for(var nN=0,nnNode=aDom.length; nN < nnNode; nN++){
       nDomTool["nTool"+nN] = document.createElement('li');
-      nDomTool["nTool"+nN].setAttribute("class", "part p"+nN);
+      nDomTool["nTool"+nN].setAttribute("class", "part p"+(nN+1));
       nConsole.appendChild(nDomTool["nTool"+nN]);
       for(var nNa=0,nnNa=aDom[nN][0].length; nNa < nnNa; nNa++){
         nDomTool["nTool"+nN]["nToolAtom"+nNa] = document.createElement(aDom[nN][0][nNa]);
@@ -516,15 +535,22 @@
         if(aDom[nN][4][nNa].content){
           let sTxt = document.createTextNode(aDom[nN][4][nNa].content);
           nDomTool["nTool"+nN]["nToolAtom"+nNa].appendChild(sTxt);
-        }else{
-          let sTxt = document.createTextNode("work in progress");
-          nDomTool["nTool"+nN]["nToolAtom"+nNa].appendChild(sTxt);
+        }else if(aDom[nN][4][nNa].domnode === "ref1"){//Create a range input for sizing brush
+          nDomTool.nSize = createSizeInputNode();
+          nDomTool["nTool"+nN]["nToolAtom"+nNa].appendChild(nDomTool.nSize);
+        }else if(aDom[nN][4][nNa].domnode === "ref2"){//Create a color input for coloring brush
+          nDomTool.nColor = createColorInputNode();
+          nDomTool["nTool"+nN]["nToolAtom"+nNa].appendChild(nDomTool.nColor);
         }
         nDomTool["nTool"+nN].appendChild(nDomTool["nTool"+nN]["nToolAtom"+nNa]);
-        //console.log(aDom[nN][4][nNa]);
       }
-      //console.log(aDom[nN][0]);
     }
+  }
+
+  function calculSizeConsole(){
+    let widthConsole = nDomTool.nConsole.clientWidth;
+    console.log(widthConsole+" - "+nDomTool.nConsole.offsetWidth);
+    nDomTool.nConsole.style.width = widthConsole+"px";
   }
 
   function addCSS(source){
@@ -534,6 +560,7 @@
     css.setAttribute('media','screen');
     css.setAttribute('rel','stylesheet');
     css.href = source;
+    css.onload = calculSizeConsole;
     head.appendChild(css);
   }
 
@@ -542,40 +569,40 @@
     placeholderTXT = dataFromPlugin[2].placeholder;
 
     /* https://developer.mozilla.org/fr/docs/DOM/document.createDocumentFragment */
-    var nMaster = document.createElement('section');
-    nMaster.setAttribute("id", "fwKrayoncanvas");
-    document.body.appendChild(nMaster);
+    nDomTool.nMaster = document.createElement('section');
+    nDomTool.nMaster.setAttribute("id", "fwKrayoncanvas");
 
-    var nOverlay = document.createElement('div');
-    nOverlay.setAttribute("class", "fwKrayonconsolWrap");
-    nMaster.appendChild(nOverlay);
+    nDomTool.nOverlay = document.createElement('div');
+    nDomTool.nOverlay.setAttribute("class", "fwKrayonconsolWrap");
+    nDomTool.nMaster.appendChild(nDomTool.nOverlay);
 
-    var nConsole = document.createElement('menu');
-    nConsole.setAttribute("class", "fwKrayonconsol");
-    nConsole.setAttribute("type", "toolbar");
-    nOverlay.appendChild(nConsole);
+    nDomTool.nConsole = document.createElement('menu');
+    nDomTool.nConsole.setAttribute("class", "fwKrayonconsol");
+    nDomTool.nConsole.setAttribute("type", "toolbar");
+    nDomTool.nOverlay.appendChild(nDomTool.nConsole);
 
-    deployConsole(nConsole, dataFromPlugin[4]);
+    deployConsole(nDomTool.nConsole, dataFromPlugin[4]);
+    
+    nDomTool.mainCanvas = document.createElement('canvas');
+    nDomTool.mainCanvas.setAttribute("id","fwKrayonwindow");
 
+    nDomTool.mainCanvas = document.createElement('canvas');
+    nDomTool.mainCanvas.setAttribute("id","fwKrayonwindow");
+    nDomTool.nMaster.appendChild(nDomTool.mainCanvas);
 
-/*
-    wrapper.innerHTML= ''+
-    '<div id="fwKrayoncanvas">'+
-      '<div class="fwKrayonconsolWrap">'+
-        '<div class="fwKrayonconsol">'+
+    nDomTool.sizeTools = document.createElement('canvas');
+    nDomTool.sizeTools.setAttribute("id","Krayonbrush");
+    nDomTool.sizeTools.setAttribute("width","150px");
+    nDomTool.sizeTools.setAttribute("height","150px");
+    nDomTool.nMaster.appendChild(nDomTool.sizeTools);
 
-        '</div>'+
-      '</div>'+
-      '<canvas id="fwKrayonwindow"></canvas>'+
-      '<canvas id="Krayonbrush" height="150" width="150"></canvas>'+
-    '</div>';
-*/
+    document.body.appendChild(nDomTool.nMaster);
 
     addCSS(dataFromPlugin[0]);
     if(dataFromPlugin[3] != 'undefined'){
       addCSS(dataFromPlugin[3]);
     }
-    //runNext();
+    initEvents();
 
   }
 
