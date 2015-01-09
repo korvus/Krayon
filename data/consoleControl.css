@@ -4,18 +4,18 @@ html body #fwKrayoncanvas{display:block;border:none;padding:0;position:absolute 
 html body .fwKrayonconsolWrap{display:table;border-collapse:separate;border-spacing:10px 0px;}	
 html body .Krayonhide .fwKrayonconsol{display:none;}
 html body #fwKrayoncanvas div{margin:0;border:none;padding:0;}
-
-html body .fwKrayonconsol{position:fixed;height:75px;display:table-cell;left:0;z-index:20003;overflow:hidden;margin:0 !important;border:1px solid #fff;padding-left:0;}
+html body .fwKrayonconsol{position:fixed;height:75px;display:table-cell;left:0;z-index:20003;overflow:hidden;margin:0 !important;padding-left:0;}
 html body #fwKrayonwindowTemp{position:absolute;z-index:20002;left:0;top:0;}
 html body #fwKrayonwindow{position:relative;z-index:3;}
 
 html body .fwKrayonconsol .colorpicker{z-index:20004;}
 html body .fwKrayonconsol #krayonColorpicker{width:44px;}
 html body #Krayonbrush{position:fixed;width:150px;height:150px;top:70px;left:0px;z-index:1;}
-html body iframe{z-index:0 !important;}
+html body iframe,
+html body object{z-index:0 !important;}
 html body #fwKrayoncanvas .fwKrayonconsol .part{padding:5px;margin:0 5px 5px;vertical-align:middle;display:table-cell;border:1px solid #000;background:#fff;box-sizing:content-box;}
 html body .fwKrayonconsol .close,
-html body .fwKrayonconsol .part{}
+html body .fwKrayonconsol .part{background:#fff;}
 html body .fwKrayonconsol .close,
 html body .fwKrayonconsol .part{box-shadow:0px 0px 5px #888;}
 html body .fwKrayonconsol .part .legend{font-size:10px;background:#fff;font-family:Arial;}

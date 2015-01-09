@@ -3,9 +3,9 @@
 
 (function(){
   
-  var Krayoncanvas = "";
-  var Krayonconsole = "";
-  var Krayonbrush = "";
+  var Krayoncanvas = {};
+  var Krayonconsole = {};
+  var Krayonbrush = {};
   var Krayonslider = "";
   var Krayoncolorpicker = "";
   var Krayongomme = "";
@@ -163,14 +163,6 @@
     Krayonentertxt.classList.remove("active");
   }
 
-  function unsetTxt(){
-    var allFonts = document.querySelectorAll("#KrayonTimes, #KrayonArial");
-    for(var fontBT of allFonts){
-      fontBT.classList.add("hide");
-    }
-    Krayonentertxt.classList.remove("active");
-  }
-
   function setTxt(e){
     e.preventDefault();
     reinitxt();
@@ -310,10 +302,23 @@
     takeScreenShotZ();
   }
 
+  function manageFlash(){
+    // http://www.onlineaspect.com/2009/08/13/javascript_to_fix_wmode_parameters/
+    var embeds = document.getElementsByTagName('embed');
+    for(i=0, nEmbeds = embeds.length; i<nEmbeds; i++)  {
+      embed = embeds[i];
+      var new_embed;
+      new_embed = embed.cloneNode(true);
+      if(!new_embed.getAttribute('wmode') || new_embed.getAttribute('wmode').toLowerCase()=='window')
+        new_embed.setAttribute('wmode','transparent');
+      embed.parentNode.replaceChild(new_embed,embed);
+    }
+  }
+
   function initEvents(){
 
     Krayoncanvas = document.getElementById("fwKrayonwindow");
-    Krayonconsole = document.getElementById("fwKrayoncanvas");
+    Krayonconsole = nDomTool.nMaster;
     Krayonbrush = document.getElementById("Krayonbrush");
     Krayonslider = document.getElementById("Krayonslider");
     Krayoncolorpicker = document.getElementById("krayonColorpicker");
@@ -324,7 +329,7 @@
     KrayonscreenZone = document.getElementById("screenshot");
     KrayonscreenZone = document.getElementById("screenshot");
     Krayonforms = document.querySelectorAll(".p4 span");
-    allTools = document.querySelectorAll(".p3 span,.p4 span, .p5 span");
+    allTools = document.querySelectorAll(".p3 span,.p4 span,.p5 span");
     IconCrayon = document.querySelector(".p3 #pencil.pencil");
     IconFeutre = document.querySelector(".p3 #pencil.feutre");
 
@@ -388,7 +393,7 @@
     modefusion = "source-over";
     createtextarea = false;
     editingtxt = false;
-    var nodeForms = document.querySelectorAll(".p5 span");
+    var nodeForms = document.querySelectorAll(".p4 span");
     for(var nodeForm of nodeForms){
       nodeForm.classList.remove("active");
     }
@@ -488,19 +493,17 @@
   function resizeCanvas(){
     var wheight = window.innerHeight;
     var wwidth = window.innerWidth;
-
     var context = Krayoncanvas.getContext("2d");
     var previousDrawing = context.getImageData(0, 0, wwidth, wheight);
-
     if(wheight>hauteurcv){
-        Krayoncanvas.height = wheight;
-        hauteurcv = wheight;
-        context.putImageData(previousDrawing,0,0);
+      Krayoncanvas.height = wheight;
+      hauteurcv = wheight;
+      context.putImageData(previousDrawing,0,0);
     }
     if(wwidth>largeurcv){
-        Krayoncanvas.width = wwidth+"px";
-        largeurcv = wwidth;
-        context.putImageData(previousDrawing,0,0);
+      Krayoncanvas.width = wwidth;
+      largeurcv = wwidth;
+      context.putImageData(previousDrawing,0,0);
     }
   }
 
@@ -549,7 +552,6 @@
 
   function calculSizeConsole(){
     let widthConsole = nDomTool.nConsole.clientWidth;
-    console.log(widthConsole+" - "+nDomTool.nConsole.offsetWidth);
     nDomTool.nConsole.style.width = widthConsole+"px";
   }
 
@@ -596,13 +598,15 @@
     nDomTool.sizeTools.setAttribute("height","150px");
     nDomTool.nMaster.appendChild(nDomTool.sizeTools);
 
-    document.body.appendChild(nDomTool.nMaster);
+    document.body.insertBefore(nDomTool.nMaster,document.body.firstChild);
+    //document.body.appendChild(nDomTool.nMaster);
 
     addCSS(dataFromPlugin[0]);
     if(dataFromPlugin[3] != 'undefined'){
       addCSS(dataFromPlugin[3]);
     }
     initEvents();
+    manageFlash();
 
   }
 
@@ -762,21 +766,21 @@
   }
 
   function createTxtArea(e){
-    var pntTo = transform_event_coord(e);
-    var txtareaNode = document.getElementById("Krayonenteringtxt");
+    let pntTo = transform_event_coord(e);
+    let txtareaNode = document.getElementById("Krayonenteringtxt");
     txtareaNode.style.width = (pntTo.x-txtpntFromx)+"px";
     txtareaNode.style.height = (pntTo.y-txtpntFromy)+"px";
   }
 
-  function finishTxtArea(e){
+  function finishTxtArea(){
     var KrayonpseudoTxtAra = document.getElementById("Krayonenteringtxt");
     Krayonconsole.removeEventListener("mousemove", createTxtArea, true);
     Krayonconsole.removeEventListener("mouseup", finishTxtArea, true);
     realCalculation = false;
     createtextarea = false;
     editingtxt = true;
-    var txtawidth = KrayonpseudoTxtAra.offsetWidth;
-    var txtaheight = KrayonpseudoTxtAra.offsetHeight;
+    let txtawidth = KrayonpseudoTxtAra.offsetWidth;
+    let txtaheight = KrayonpseudoTxtAra.offsetHeight;
     //http://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
     
     var txtapos = KrayonpseudoTxtAra.getBoundingClientRect();
@@ -811,7 +815,7 @@
 
     if(realCalculation === true){
       createtextarea = false;
-      Krayonconsole.addEventListener("mousemove", createTxtArea, false);
+      Krayonconsole.addEventListener("mousemove", createTxtArea, true);
       Krayonconsole.addEventListener("mouseup", finishTxtArea, true);
     }
 
@@ -856,7 +860,7 @@
       var waswriting = 0;
       var wasForming = 0;
 
-      var txtAreasBTDom = document.querySelectorAll(".fwKrayoncanvas .p6 span");
+      var txtAreasBTDom = document.querySelectorAll(".fwKrayoncanvas .p5 span");
       for(var aTxtArea of txtAreasBTDom){
         if(aTxtArea.classList.contains("active")) waswriting++;
       }
