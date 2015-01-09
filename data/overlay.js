@@ -16,7 +16,7 @@
   var KrayonscreenZone = "";
   var allTools = "";
   var IconCrayon = false;
-  var IconFeutre = false;
+  var IconFelt = false;
   
   /* Nodes */
   var nDomTool = {};
@@ -108,9 +108,9 @@
     ctxBrush.fillStyle = "rgba(100,100,100,0.5)";
     ctxBrush.beginPath();
     ctxBrush.clearRect(0,0,200,200);
-    if(type == "round"){
+    if(type === "round"){
         ctxBrush.arc(75, 75, (size/2), 0, Math.PI*2, true);
-    }else if(type == "miter"){
+    }else if(type === "miter"){
         ctxBrush.strokeRect(75-(size/2), 75-(size/2), size, size);
     }
     ctxBrush.stroke();
@@ -166,7 +166,7 @@
   function setTxt(e){
     e.preventDefault();
     reinitxt();
-    var allFonts = document.querySelectorAll(".p6 span");
+    var allFonts = document.querySelectorAll(".p5 span");
     for(var MultipleTool of allTools){
       MultipleTool.classList.remove("active");
       MultipleTool.classList.remove("on");
@@ -209,10 +209,6 @@
 
   }
 
-  var displayKrayonconsole = function(){
-    Krayonconsole.classList.remove("Krayonhide");
-  }
-
   function takeFScreenShot(){
     heightTotal = document.body.scrollHeight;
     var params = {
@@ -220,7 +216,6 @@
     };
     Krayonconsole.classList.add("Krayonhide");
     self.port.emit('takeascreen', params);
-    setTimeout(displayKrayonconsole,1000);
   }
 
 
@@ -250,6 +245,7 @@
 
   function createScreenArea(e){
     var pseudoScreen = document.createElement("div");
+    Krayonconsole.classList.add("Krayonhide");
     pseudoScreen.id = "KrayonsurfaceScreen";
     Krayonconsole.appendChild(pseudoScreen);
     firstPos = transform_event_coord(e);
@@ -302,12 +298,23 @@
     takeScreenShotZ();
   }
 
+  // when screenshot over
+  function finishScreen(){
+    var crop = document.getElementById("KrayonsurfaceScreen");
+    crop.parentNode.removeChild(crop);
+    KrayonscreenZone.classList.remove("active");
+    currentCalcul = false;
+    backToPreviousActive();
+  }
+
+
+
   function manageFlash(){
     // http://www.onlineaspect.com/2009/08/13/javascript_to_fix_wmode_parameters/
-    var embeds = document.getElementsByTagName('embed');
-    for(i=0, nEmbeds = embeds.length; i<nEmbeds; i++)  {
-      embed = embeds[i];
-      var new_embed;
+    let embeds = document.getElementsByTagName('embed');
+    for(let i=0, nEmbeds = embeds.length; i<nEmbeds; i++)  {
+      let embed = embeds[i];
+      let new_embed;
       new_embed = embed.cloneNode(true);
       if(!new_embed.getAttribute('wmode') || new_embed.getAttribute('wmode').toLowerCase()=='window')
         new_embed.setAttribute('wmode','transparent');
@@ -330,8 +337,8 @@
     KrayonscreenZone = document.getElementById("screenshot");
     Krayonforms = document.querySelectorAll(".p4 span");
     allTools = document.querySelectorAll(".p3 span,.p4 span,.p5 span");
-    IconCrayon = document.querySelector(".p3 #pencil.pencil");
-    IconFeutre = document.querySelector(".p3 #pencil.feutre");
+    IconCrayon = document.querySelector("#pencil.pencil");
+    IconFelt = document.querySelector("#pencil.felt");
 
     hauteurcv = document.documentElement.scrollHeight;
     largeurcv = document.documentElement.scrollWidth;
@@ -368,25 +375,27 @@
     eraser = false;
     drawing = false;
     if(typeSelected.classList.contains("on")){
-      typeSelected.classList.remove(e.target.notthisone);
-      typeSelected.classList.add(e.target.usethisclass);
-      type = (e.target.usethisclass == "crayon") ? "round" : "miter";
+      typeSelected.classList.remove(typeSelected.notthisone);
+      typeSelected.classList.add(typeSelected.usethisclass);
+      type = (typeSelected.usethisclass == "pencil") ? "round" : "miter";
     }else{
       typeSelected.classList.add("on");
     }
-    typeSelected.removeEventListener("click", pencil, false);
+    typeSelected.removeEventListener('click', pencil, true);
     inittools();
     e.preventDefault();
   }
 
 
   function initPencilandFeutre(){
-    if(IconCrayon){IconCrayon.usethisclass = 'feutre';IconCrayon.notthisone = 'crayon';}
-    if(IconFeutre){IconFeutre.usethisclass = 'crayon';IconFeutre.notthisone = 'feutre';}
+    IconCrayon = document.querySelector("#pencil.pencil");
+    IconFelt = document.querySelector("#pencil.felt");
 
+    if(IconCrayon){ IconCrayon.usethisclass = 'felt';IconCrayon.notthisone= 'pencil';}
+    if(IconFelt){   IconFelt.usethisclass = 'pencil';IconFelt.notthisone  = 'felt';}
     //passer en mode carré
     if(IconCrayon) IconCrayon.addEventListener('click', pencil, true);
-    if(IconFeutre) IconFeutre.addEventListener('click', pencil, true);
+    if(IconFelt) IconFelt.addEventListener('click', pencil, true);
   }
 
   function inittools(){
@@ -413,14 +422,11 @@
 
   //Remove temporary canvas + remove textarea behind (reinitxt) + add EventListener
   function initSoft(){
-    //var canvas = document.getElementById("fwKrayonwindow");
     if(document.getElementById("fwKrayonwindowTemp")){
       var CanvasTMP = document.getElementById("fwKrayonwindowTemp");
       CanvasTMP.parentNode.removeChild(CanvasTMP);
     }
     reinitxt();
-    //var ctx = canvas.getContext("2d");
-    //$("#fwKrayonwindowTemp").remove();
     nodraw = false;
     Krayoncanvas.addEventListener("mousedown", on_mousedown, true);
     Krayoncanvas.addEventListener("mousemove", on_mousemove, true);
@@ -443,20 +449,25 @@
   function on_mousedown(e){
     if(createtextarea === false){drawing = true;}else{drawing = false;}
     lastpos = transform_event_coord(e);
-    
+    pos = lastpos;
+
     //init context
     ctx = Krayoncanvas.getContext("2d");
     ctx.globalCompositeOperation = modefusion;//Mode de superposition des éléments -- pour la gomme
     ctx.strokeStyle = exa;//couleur
     ctx.fillStyle = exa;
     ctx.lineWidth = sizeBrush;//Largeur du trait.
-    ctx.lineJoin = type;
-    ctx.lineCap = "square";
-    if(type == "miter"){
+    ctx.lineJoin = "square";
+    //alert(type);
+    ctx.lineCap = "round";
+    if(type === "miter"){
       ctx.lineWidth = sizeBrush;
       ctx.fillRect(pos.x-(sizeBrush/2), pos.y-(sizeBrush/2),sizeBrush ,sizeBrush);
       ctx.strokeRect (pos.x-(sizeBrush/2), pos.y-(sizeBrush/2),0 ,0);//Comptour du carré = 0
+    }else{
+      ctx.lineCap = "round";
     }
+    ctx.beginPath();
   }
 
   function on_mousemove(e){
@@ -464,10 +475,8 @@
       return;
     }
     pos = transform_event_coord(e);
-    ctx.beginPath();
     ctx.moveTo(lastpos.x, lastpos.y);
     ctx.lineTo(pos.x, pos.y);
-    ctx.closePath();
     ctx.stroke();
     lastpos = pos;
     //http://www.html5rocks.com/en/tutorials/canvas/performance/
@@ -476,7 +485,13 @@
 
   //Call when user release mouse of when he manipulate brush size
   function on_mouseup(){
-      drawing = false;
+    if(type === "miter"){
+      ctx.lineWidth = sizeBrush;
+      ctx.fillRect(pos.x-(sizeBrush/2), pos.y-(sizeBrush/2),sizeBrush ,sizeBrush);
+      ctx.strokeRect (pos.x-(sizeBrush/2), pos.y-(sizeBrush/2),0 ,0);//Comptour du carré = 0
+    }
+    ctx.closePath();
+    drawing = false;
   }
 
 
@@ -556,14 +571,23 @@
   }
 
   function addCSS(source){
-    var head = document.getElementsByTagName('HEAD')[0];
-    var css = document.createElement('link');
-    css.setAttribute('type','text/css');
-    css.setAttribute('media','screen');
-    css.setAttribute('rel','stylesheet');
-    css.href = source;
-    css.onload = calculSizeConsole;
-    head.appendChild(css);
+    let allSS = document.styleSheets;
+    let present = 0;
+    for(let oSS of allSS){
+      if(oSS.href == source){
+        present++;
+      }
+    }
+    if(!present){
+      let head = document.getElementsByTagName('HEAD')[0];
+      let css = document.createElement('link');
+      css.setAttribute('type','text/css');
+      css.setAttribute('media','screen');
+      css.setAttribute('rel','stylesheet');
+      css.href = source;
+      css.onload = calculSizeConsole;
+      head.appendChild(css);
+    }
   }
 
   function createConsole(dataFromPlugin){
@@ -598,8 +622,8 @@
     nDomTool.sizeTools.setAttribute("height","150px");
     nDomTool.nMaster.appendChild(nDomTool.sizeTools);
 
-    document.body.insertBefore(nDomTool.nMaster,document.body.firstChild);
-    //document.body.appendChild(nDomTool.nMaster);
+    //document.body.insertBefore(nDomTool.nMaster,document.body.firstChild);
+    document.body.appendChild(nDomTool.nMaster);
 
     addCSS(dataFromPlugin[0]);
     if(dataFromPlugin[3] != 'undefined'){
@@ -842,8 +866,8 @@
 
     var neoCanvas = document.createElement("canvas");
     neoCanvas.id = "fwKrayonwindow";
-    neoCanvas.style.width = wCV+"px";
-    neoCanvas.style.height = hCV+"px";
+    neoCanvas.style.width = wCV;
+    neoCanvas.style.height = hCV;
     Krayoncanvas = container.insertBefore(neoCanvas, Krayonbrush);
 
     initCV(wCV,hCV);
@@ -889,15 +913,10 @@
 
   }
 
-  // when screenshot over
-  function finishScreen(){
-    var crop = document.getElementById("KrayonsurfaceScreen");
-    crop.parentNode.removeChild(crop);
-    KrayonscreenZone.classList.remove("active");
-    currentCalcul = false;
-    backToPreviousActive();
-  }
-
+  //* Display back the console after a screenshot *//
+  self.port.on("displayABBDconsole", function(){
+     Krayonconsole.classList.remove("Krayonhide"); 
+  });
 
   //* Launch everything!! *//
   self.port.on("init", function(params){

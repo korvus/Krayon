@@ -27,7 +27,7 @@ html body .fwKrayonconsol .p5 span{background:url(i/pencil.png) 0 0 no-repeat;}
 html body .fwKrayonconsol .p3 span{display:block;width:26px;height:25px;text-indent:-9999px;overflow:hidden;background:url(i/pencil.png) 0 0 no-repeat;}
 html body .fwKrayonconsol #KrayonGum{background-position:8px 5px;border-bottom:1px dotted #fff;}
 html body .fwKrayonconsol .p3 span.pencil{background-position:8px -25px;}
-html body .fwKrayonconsol .p3 span.feutre{background-position:-23px -27px;}
+html body .fwKrayonconsol .p3 span.felt{background-position:-23px -27px;}
 html body .fwKrayonconsol .p3 span:hover,
 html body .fwKrayonconsol .p3 span:focus,
 html body .fwKrayonconsol .p3 span.active{background-color:#f5f22b;}
