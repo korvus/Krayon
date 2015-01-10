@@ -57,6 +57,7 @@ Like it's HXS, you have to make a callback. If you output an url, the plugin wil
 ### TODO
 - Allow to destroy some textarea
 - Add some shortcut
+- Adapt for retina screen resolution
 - Fix some heights and widths behavior
 - Better code...
 - Take all good ideas :)
