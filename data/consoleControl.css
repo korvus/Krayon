@@ -44,7 +44,7 @@ html body .fwKrayonconsol .p4 span.drawsquare{background-position:-21px -70px;}
 html body .fwKrayonconsol .p4 span.drawcircle{background-position:-21px -50px;}
 
 /* Fonts */
-html body .fwKrayonconsol .p5 #entertext{float:left;width:23px;height:11px;margin:7px 0 4px;background-position:-5px -101px;text-indent:-9999px;overflow:hidden;}
+html body .fwKrayonconsol .p5 #entertext{float:left;width:23px;height:11px;margin:1px 0 4px;background-position:-5px -101px;text-indent:-9999px;overflow:hidden;}
 html body .fwKrayonconsol .p5 a:hover,
 html body .fwKrayonconsol .p5 .active{background-color:#f5f22b;}
 html body .fwKrayonconsol .p5 span.hide{display:none;}

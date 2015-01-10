@@ -56,11 +56,11 @@ Like it's HXS, you have to make a callback. If you output an url, the plugin wil
 
 ### TODO
 - Allow to destroy some textarea
+- Add some shortcut
+- Fix some heights and widths behavior
+- Better code...
+- Take all good ideas :)
 - Add some shapes like empty circle
-- Better fluidity in drawing... for the moment, not that terrible...
-- fix some heights and widths bugs...
-- better code...
-- take all good ideas :)
 
 ### Version
 0.0.1
