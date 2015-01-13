@@ -915,7 +915,7 @@
 
   //* Display back the console after a screenshot *//
   self.port.on("displayABBDconsole", function(){
-     Krayonconsole.classList.remove("Krayonhide"); 
+    Krayonconsole.classList.remove("Krayonhide"); 
   });
 
   //* Launch everything!! *//
