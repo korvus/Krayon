@@ -40,7 +40,7 @@ Erase the canvas, from drawings and text fields. You still allow to draw on the 
 - local Hosting target the pic file you generate each time you take a screenshot. 
  - By default, it will be on your desktop in a folder called "Krayon". 
  - If you prefer stock your pic in an another folder on your computer, choose one in the option below with the form for.
-- Remote hosting is a little more touchy, but more interesting. for be used, you need to own your server, and to be abble to write some basic code on it. 
+- Remote hosting is a little more touchy, but more interesting. for be used, you need to own your server, and to be able to write some basic code on it. 
  - For activate it, check the box for it, and put the good infos below. 
  - The adress will be the script URL
  - Others fields concerns the name of the param the plugin Krayon will send.

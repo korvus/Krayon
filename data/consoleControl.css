@@ -13,11 +13,12 @@ html body .fwKrayonconsol #krayonColorpicker{width:44px;}
 html body #Krayonbrush{position:fixed;width:150px;height:150px;top:70px;left:0px;z-index:1;}
 html body iframe,
 html body object{z-index:0 !important;}
-html body #fwKrayoncanvas .fwKrayonconsol .part{padding:5px;margin:0 5px 5px;vertical-align:middle;display:table-cell;border:1px solid #000;background:#fff;box-sizing:content-box;}
+html body #fwKrayoncanvas .cp{min-height:auto;}/* For google hangout */
+html body #fwKrayoncanvas .fwKrayonconsol .part{padding:5px;margin:0 5px 5px;vertical-align:middle;display:table-cell;border:1px solid #000;background:#fff;box-sizing:content-box;height:auto;}
 html body .fwKrayonconsol .close,
 html body .fwKrayonconsol .part{background:#fff;}
 html body .fwKrayonconsol .close,
-html body .fwKrayonconsol .part{box-shadow:0px 0px 5px #888;}
+html body .fwKrayonconsol .part{box-shadow:0px 0px 5px #888;position:static;width:auto;opacity:100;}
 html body .fwKrayonconsol .part .legend{font-size:10px;background:#fff;font-family:Arial;}
 html body .fwKrayonconsol .p2 span:focus,
 html body .fwKrayonconsol .p2 span:hover{background:#f5f22b;}
@@ -63,6 +64,7 @@ html body .fwKrayonconsol .colorpicker{z-index:3;}
 html body .fwKrayonconsol .close{float:left;margin-top:0;border:1px solid #000;border-top:none;padding:0 10px 5px;color:#000;background:#fff;font-size:18px;text-decoration:none;font-weight:bold;}
 html body .fwKrayonconsol .close:hover{background-color:#f5f22b;}
 
+html body .fwKrayonconsol #eraseall{cursor:pointer;}
 
 #thisActive{border:2px dotted #000;}
 #thisActive:focus{outline:20px solid rgba(255, 255, 0, 0.5);background-color:rgba(255,255,255,0.5);}
