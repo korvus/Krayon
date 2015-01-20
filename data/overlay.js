@@ -21,6 +21,9 @@
   /* Nodes */
   var nDomTool = {};
 
+  /* Event management */
+  var changeColors = new Event('click',{ bubbles: false, cancelable: false });
+
   /* Variables */
   var nodraw = 0;
   var drawing = false;
@@ -195,6 +198,8 @@
   }
 
   function eraseALL(){
+    window.removeEventListener("keydown",initKeyBehavior, true);
+    window.removeEventListener("resize",resizeCanvas, true);
     var allAddTheAddon = document.getElementById("fwKrayoncanvas");
     allAddTheAddon.parentNode.removeChild(allAddTheAddon);
   }
@@ -322,6 +327,20 @@
     }
   }
 
+  function initKeyBehavior(e){
+    // Echap
+    if(e.keyCode === 27){
+      eraseALL();
+    }
+    // C
+    if(e.keyCode === 67){
+      Krayoncolorpicker.dispatchEvent(changeColors);
+    }
+    // 109 > -
+    // 107 > +
+    
+  }
+
   function initEvents(){
 
     Krayoncanvas = document.getElementById("fwKrayonwindow");
@@ -350,13 +369,14 @@
     Krayonslider.addEventListener("mousedown", previsuBrush, true);
     Krayonslider.addEventListener("change", function(){stopBrush(ctxBrush);}, true);
     Krayonslider.addEventListener("mouseup", function(){stopBrush(ctxBrush);}, true);
-    window.addEventListener("resize", resizeCanvas, true);
     Krayoncolorpicker.addEventListener("change", setColors, true);
     Krayongomme.addEventListener("click", setGum, true);
     Krayonentertxt.addEventListener("click",setTxt, true);
     Krayonclean.addEventListener("click",setCleanAll, true);
     Krayonfullscreen.addEventListener("click",takeFScreenShot, true);
     KrayonscreenZone.addEventListener("click",setScreen, true);
+    window.addEventListener("resize", resizeCanvas, true);
+    window.addEventListener("keydown",initKeyBehavior, true);
     inittools();
 
     for(var Krayonform of Krayonforms){
@@ -626,9 +646,11 @@
     document.body.appendChild(nDomTool.nMaster);
 
     addCSS(dataFromPlugin[0]);
+
     if(dataFromPlugin[3] != 'undefined'){
       addCSS(dataFromPlugin[3]);
     }
+
     initEvents();
     manageFlash();
 

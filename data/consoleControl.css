@@ -1,3 +1,8 @@
+html .fwKrayonconsol li:before,
+html .fwKrayonconsol li:after{content:"";}
+html .fwKrayonconsol,
+html #fwKrayoncanvas{background:none;border:none;}
+
 html{/*position:relative !important;*/}
 html body #Krayonslider input{width:80px;margin:0;}
 html body #fwKrayoncanvas{display:block;border:none;padding:0;position:absolute !important;top:0;left:0;z-index:2999999999;margin:0 !important;padding:0;box-sizing:content-box;height:75px;}
