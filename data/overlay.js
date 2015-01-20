@@ -458,6 +458,7 @@
 
   function on_mousedown(e){
     if(createtextarea === false){drawing = true;}else{drawing = false;}
+    if (!drawing || nodraw === true) return;
     lastpos = transform_event_coord(e);
     pos = lastpos;
 
@@ -481,9 +482,7 @@
   }
 
   function on_mousemove(e){
-    if (!drawing || nodraw === true){
-      return;
-    }
+    if (!drawing || nodraw === true) return;
     pos = transform_event_coord(e);
     ctx.moveTo(lastpos.x, lastpos.y);
     ctx.lineTo(pos.x, pos.y);
@@ -495,6 +494,7 @@
 
   //Call when user release mouse of when he manipulate brush size
   function on_mouseup(){
+    if (!drawing || nodraw === true) return;
     if(type === "miter"){
       ctx.lineWidth = sizeBrush;
       ctx.fillRect(pos.x-(sizeBrush/2), pos.y-(sizeBrush/2),sizeBrush ,sizeBrush);
