@@ -21,6 +21,9 @@
   /* Nodes */
   var nDomTool = {};
 
+  /* Event management */
+  var changeColors = new Event('click',{ bubbles: false, cancelable: false });
+
   /* Variables */
   var nodraw = 0;
   var drawing = false;
@@ -328,7 +331,14 @@
     // Echap
     if(e.keyCode === 27){
       eraseALL();
-    }   
+    }
+    // C
+    if(e.keyCode === 67){
+      Krayoncolorpicker.dispatchEvent(changeColors);
+    }
+    // 109 > -
+    // 107 > +
+    
   }
 
   function initEvents(){
