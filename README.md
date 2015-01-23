@@ -54,17 +54,8 @@ echo "ok";
 This script will create a pic file in the current folder of myurl.com.
 Like it's HXS, you have to make a callback. If you output an url, the plugin will open a new tab with this url your write. Elsewhere, will just try to open a new tab with myurl.com/picname.png.
 
-### TODO
-- Allow to destroy some textarea
-- Add some shortcut
-- Adapt for retina screen resolution
-- Fix some heights and widths behavior
-- Better code...
-- Take all good ideas :)
-- Add some shapes like empty circle
-
 ### Version
-0.0.1
+0.0.2
 
 ### Tech
 * Javascript
