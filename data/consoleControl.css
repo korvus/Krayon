@@ -9,7 +9,7 @@ html body #fwKrayoncanvas{display:block;border:none;padding:0;position:absolute 
 html body .fwKrayonconsolWrap{display:table;border-collapse:separate;border-spacing:10px 0px;}	
 html body .Krayonhide .fwKrayonconsol{display:none;}
 html body #fwKrayoncanvas div{margin:0;border:none;padding:0;}
-html body .fwKrayonconsol{position:fixed;height:75px;display:table-cell;left:0;z-index:20003;overflow:hidden;margin:0 !important;padding-left:0;}
+html body .fwKrayonconsol{position:fixed;height:75px;display:table-cell;left:0;z-index:20003;overflow:hidden;margin:0 !important;padding-left:0;color:#000;}
 html body #fwKrayonwindowTemp{position:absolute;z-index:20002;left:0;top:0;}
 html body #fwKrayonwindow{position:relative;z-index:3;}
 

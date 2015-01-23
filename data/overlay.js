@@ -21,10 +21,7 @@
   /* Nodes */
   var nDomTool = {};
 
-  /* Event management */
-  var changeColors = new Event('click',{ bubbles: false, cancelable: false });
-
-  /* Variables */
+  /* interactions */
   var nodraw = 0;
   var drawing = false;
   var lastpos = {x:-1,y:-1};
@@ -198,10 +195,13 @@
   }
 
   function eraseALL(){
-    window.removeEventListener("keydown",initKeyBehavior, true);
-    window.removeEventListener("resize",resizeCanvas, true);
-    var allAddTheAddon = document.getElementById("fwKrayoncanvas");
-    allAddTheAddon.parentNode.removeChild(allAddTheAddon);
+    if(document.getElementById("fwKrayoncanvas")){
+      let allAddTheAddon = document.getElementById("fwKrayoncanvas");
+      allAddTheAddon.parentNode.removeChild(allAddTheAddon);
+      self.port.emit("setIconFromContent", "0");
+      window.removeEventListener("keydown",initKeyBehavior, true);
+      window.removeEventListener("resize",resizeCanvas, true);
+    }
   }
 
   function defineBehavior(params){
@@ -331,14 +331,7 @@
     // Echap
     if(e.keyCode === 27){
       eraseALL();
-    }
-    // C
-    if(e.keyCode === 67){
-      Krayoncolorpicker.dispatchEvent(changeColors);
-    }
-    // 109 > -
-    // 107 > +
-    
+    }    
   }
 
   function initEvents(){
@@ -591,6 +584,7 @@
   }
 
   function addCSS(source){
+    
     let allSS = document.styleSheets;
     let present = 0;
     for(let oSS of allSS){
@@ -599,7 +593,8 @@
       }
     }
     if(!present){
-      let head = document.getElementsByTagName('HEAD')[0];
+      let head = document.head;
+      //console.log(document.getElementsByTagName(/HEAD/));
       let css = document.createElement('link');
       css.setAttribute('type','text/css');
       css.setAttribute('media','screen');
@@ -608,6 +603,8 @@
       css.onload = calculSizeConsole;
       head.appendChild(css);
     }
+    
+    //document.createProcessingInstruction('xml-stylesheet', 'type="text/css" href="'+source+'"');
   }
 
   function createConsole(dataFromPlugin){
@@ -642,7 +639,7 @@
     nDomTool.sizeTools.setAttribute("height","150px");
     nDomTool.nMaster.appendChild(nDomTool.sizeTools);
 
-    //document.body.insertBefore(nDomTool.nMaster,document.body.firstChild);
+    //document.firstElementChild.appendChild(nDomTool.nMaster);
     document.body.appendChild(nDomTool.nMaster);
 
     addCSS(dataFromPlugin[0]);
@@ -936,22 +933,21 @@
   }
 
   //* Display back the console after a screenshot *//
-  self.port.on("displayABBDconsole", function(){
-    Krayonconsole.classList.remove("Krayonhide"); 
+  self.port.on("displayKrayonConsole", function(){
+    Krayonconsole.classList.remove("Krayonhide");
   });
 
   //* Launch everything!! *//
   self.port.on("init", function(params){
-    if(document.doctype !== null){
-      if(document.doctype.ownerDocument.contentType == "text/html"){
-        defineBehavior(params);
-      }else{
-        alert(params[2].mod_warning_id);
-      }
+
+    //Complementary check with the simpleCheck script in main.js.
+    if(document.body !== undefined || document.head !== undefined){
+      defineBehavior(params);
     }else{
       alert(params[2].mod_warning_id);
+      self.port.emit("setIconFromContent", "0");
     }
-    
+
   });
 
 
