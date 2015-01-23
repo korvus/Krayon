@@ -8,7 +8,7 @@
   "author": "Simon Ertel",
   "translators": ["Simon Ertel","Iryna Lystopad","Pierre-Henri Pache","Fabian Beigang"],
   "license": "MPL 2.0",
-  "version": "0.1",
+  "version": "0.2",
   "preferences": [{
     "name": "alignement",
     "type": "radio",
