@@ -6,7 +6,7 @@
   "icon64": "data/i/icon-64.png",
   "description": "Allow to overwrite/draw on a webpage and to take a screenshot on it.",
   "author": "Simon Ertel",
-  "translators": ["Simon Ertel","Iryna Lystopad","Pierre-Henri Pache","Fabian Beigang"],
+  "translators": ["Simon Ertel","Iryna Lystopad","Pierre-Henri Pache","Fabian Beigang","Ruri Yamamoto","Emanuel Sousa"],
   "license": "MPL 2.0",
   "version": "0.2",
   "preferences": [{

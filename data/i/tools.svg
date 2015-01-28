@@ -7,7 +7,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
@@ -23,15 +22,19 @@
    shape-rendering="optimizeSpeed"
    sodipodi:docname="tools.svg">
 
-   <metadata id="metadata84">
+   <metadata
+   id="metadata84">
       <rdf:RDF>
-         <cc:Work rdf:about="">
+         <cc:Work
+   rdf:about="">
             <dc:format>image/svg+xml</dc:format>
-            <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+            <dc:type
+   rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
          </cc:Work>
       </rdf:RDF>
    </metadata>
-   <defs id="defs82" />
+   <defs
+   id="defs82" />
    <sodipodi:namedview
    pagecolor="#ffffff"
    bordercolor="#666666"
@@ -49,13 +52,13 @@
    fit-margin-left="0"
    fit-margin-right="0"
    fit-margin-bottom="0"
-   inkscape:zoom="1.742515"
-   inkscape:cx="18.208"
-   inkscape:cy="72.5"
+   inkscape:zoom="8"
+   inkscape:cx="21.501025"
+   inkscape:cy="54.380783"
    inkscape:window-x="1128"
    inkscape:window-y="61"
    inkscape:window-maximized="0"
-   inkscape:current-layer="svg2" />
+   inkscape:current-layer="Calque_2" />
 <g
    id="Calque_1"
    display="none"
@@ -108,8 +111,9 @@
    id="path22"
    inkscape:connector-curvature="0" />
 	<polygon
-   points="32.833,107.083 32.833,106.083 15,106.083 15,117 32.833,117 32.833,116 16,116 16,107.083 "
-   id="polygon24" />
+   points="15,106.083 15,117 32.833,117 32.833,116 16,116 16,107.083 32.833,107.083 32.833,106.083 "
+   id="polygon24"
+   transform="matrix(1,0,0,1.1946506,0,-20.649114)" />
 	<g
    id="g26">
 		<rect
@@ -126,7 +130,8 @@
    id="rect30" />
 	</g>
 	<g
-   id="g32">
+   id="g32"
+   transform="translate(0,2)">
 		<rect
    x="33.833"
    y="116"
@@ -141,7 +146,8 @@
    id="rect36" />
 	</g>
 	<g
-   id="g38">
+   id="g38"
+   transform="matrix(1.7869642,0,0,1.7019838,-14.100946,-78.184266)">
 		<path
    d="m 20.166,113.977 c -0.551,0.426 -0.896,0.672 -1.037,0.738 -0.211,0.098 -0.436,0.146 -0.674,0.146 -0.371,0 -0.677,-0.127 -0.917,-0.381 -0.24,-0.254 -0.36,-0.588 -0.36,-1.002 0,-0.262 0.059,-0.488 0.176,-0.68 0.16,-0.266 0.438,-0.516 0.835,-0.75 0.397,-0.234 1.056,-0.52 1.978,-0.855 v -0.211 c 0,-0.535 -0.085,-0.902 -0.255,-1.102 -0.17,-0.2 -0.417,-0.299 -0.741,-0.299 -0.246,0 -0.441,0.066 -0.586,0.199 -0.148,0.133 -0.223,0.285 -0.223,0.457 l 0.012,0.34 c 0,0.18 -0.046,0.318 -0.138,0.416 -0.092,0.098 -0.212,0.146 -0.36,0.146 -0.145,0 -0.263,-0.051 -0.354,-0.152 -0.091,-0.101 -0.138,-0.24 -0.138,-0.416 0,-0.336 0.172,-0.645 0.516,-0.926 0.344,-0.281 0.826,-0.422 1.447,-0.422 0.477,0 0.867,0.08 1.172,0.24 0.23,0.121 0.4,0.311 0.51,0.568 0.07,0.168 0.105,0.512 0.105,1.031 v 1.822 c 0,0.512 0.01,0.825 0.029,0.94 0.019,0.115 0.052,0.192 0.097,0.231 0.045,0.039 0.097,0.059 0.155,0.059 0.063,0 0.117,-0.014 0.164,-0.041 0.082,-0.051 0.24,-0.193 0.475,-0.428 v 0.328 c -0.438,0.586 -0.855,0.879 -1.254,0.879 -0.191,0 -0.344,-0.066 -0.457,-0.199 -0.113,-0.133 -0.173,-0.356 -0.177,-0.676 z m 0,-0.381 v -2.045 c -0.59,0.234 -0.971,0.4 -1.143,0.498 -0.309,0.172 -0.529,0.352 -0.662,0.539 -0.133,0.187 -0.199,0.393 -0.199,0.615 0,0.281 0.084,0.515 0.252,0.7 0.168,0.185 0.361,0.278 0.58,0.278 0.297,0.001 0.688,-0.195 1.172,-0.585 z"
    id="path40"
