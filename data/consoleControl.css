@@ -35,41 +35,41 @@ html body .fwKrayonconsol .p5 span{	background:url(i/tools.svg) 0 0 no-repeat;ba
 /* Pencil & gum */
 html body .fwKrayonconsol .p3 span{display:block;width:26px;height:25px;text-indent:-9999px;overflow:hidden;
 	background:url(i/tools.svg) 0 0 no-repeat;}
-html body .fwKrayonconsol #KrayonGum{background-position:8px 5px;border-bottom:1px dotted #fff;}
-html body .fwKrayonconsol .p3 span.pencil{background-position:8px -25px;}
-html body .fwKrayonconsol .p3 span.felt{background-position:-23px -27px;}
+html body .fwKrayonconsol #KrayonGum{background-position:10px 0px;border-bottom:1px dotted #fff;}
+html body .fwKrayonconsol .p3 span.pencil{background-position:10px -25px;}
+html body .fwKrayonconsol .p3 span.felt{background-position:-26px -25px;}
 html body .fwKrayonconsol .p3 span:hover,
 html body .fwKrayonconsol .p3 span:focus,
-html body .fwKrayonconsol .p3 span.active{background-color:#f5f22b;}
+html body .fwKrayonconsol .p3 span.active{background-color:#f5f22b;cursor:pointer;}
 
 /* Shapes */
 html body .fwKrayonconsol .p4{width:52px;}
-html body .fwKrayonconsol .p4 span{display:inline-block;width:26px;height:25px;text-indent:-9999px;overflow:hidden;
+html body .fwKrayonconsol .p4 span{display:inline-block;width:26px;height:24px;text-indent:-9999px;overflow:hidden;
 	background:url(i/tools.svg) 0 0 no-repeat;}
 html body .fwKrayonconsol .p4 span.active,
 html body .fwKrayonconsol .p4 span:hover,
 html body .fwKrayonconsol .p4 span:focus{background-color:#f5f22b;cursor:pointer;}
-html body .fwKrayonconsol .p4 span.drawtrait{background-position:5px -72px;}
-html body .fwKrayonconsol .p4 span.drawsquarempty{background-position:5px -50px;}
-html body .fwKrayonconsol .p4 span.drawsquare{background-position:-19px -70px;}
-html body .fwKrayonconsol .p4 span.drawcircle{background-position:-19px -50px;}
+html body .fwKrayonconsol .p4 span.drawtrait{background-position:9px -73px;}
+html body .fwKrayonconsol .p4 span.drawsquarempty{background-position:8px -57px;}
+html body .fwKrayonconsol .p4 span.drawsquare{background-position:-22px -73px;}
+html body .fwKrayonconsol .p4 span.drawcircle{background-position:-17px -55px;}
 
 /* Fonts */
-html body .fwKrayonconsol .p5 #entertext{float:left;width:23px;height:16px;margin:1px 0 4px;background-position:-3px -101px;text-indent:-9999px;overflow:hidden;}
-html body .fwKrayonconsol .p5 a:hover,
+html body .fwKrayonconsol .p5 #entertext{float:left;width:23px;height:16px;margin:1px 0 4px;background-position:0px -95px;text-indent:-9999px;overflow:hidden;}
+html body .fwKrayonconsol .p5 span:hover,
 html body .fwKrayonconsol .p5 .active{background-color:#f5f22b;}
 html body .fwKrayonconsol .p5 span.hide{display:none;}
 html body .fwKrayonconsol .p5 span.active{background-color:#F5F22B;}
 html body .fwKrayonconsol .p5 span{display:block;margin:4px auto;width:10px;height:9px;text-indent:-9999px;background:url(i/tools.svg) 0 0 no-repeat;cursor:pointer;}
-html body .fwKrayonconsol .p5 #KrayonTimes{background-position:-1px -118px;}
-html body .fwKrayonconsol .p5 #KrayonArial{background-position:-8px -118px;}
+html body .fwKrayonconsol .p5 #KrayonTimes{background-position:-1px -117px;}
+html body .fwKrayonconsol .p5 #KrayonArial{background-position:-16px -116px;}
 
 /* Screenshot */
 html body .fwKrayonconsol .p6 span{display:block;overflow:hidden;margin:5px 0;text-indent:-9999px;width:19px;height:16px;overflow:hidden;
-	background:url(i/tools.svg) 1px -136px no-repeat transparent;cursor:pointer;background-size:auto auto;}
+	background:url(i/tools.svg) 2px -131px no-repeat transparent;cursor:pointer;background-size:auto auto;}
 html body .fwKrayonconsol .p6 span:hover,
 html body .fwKrayonconsol .p6 .active{background-color:#f5f22b;}
-html body .fwKrayonconsol .p6 span#screenshot{background-position:-18px -136px;}
+html body .fwKrayonconsol .p6 span#screenshot{background-position:-27px -135px;}
 
 html body .fwKrayonconsol .colorpicker{z-index:3;}
 html body .fwKrayonconsol .close{float:left;margin-top:0;border:1px solid #000;border-top:none;padding:0 10px 5px;color:#000;background:#fff;font-size:18px;text-decoration:none;font-weight:bold;}
