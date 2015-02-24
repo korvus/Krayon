@@ -12,13 +12,13 @@
    version="1.1"
    x="0px"
    y="0px"
-   width="37.624001"
+   width="37"
    height="151"
-   viewBox="0 0 37.624001 151"
+   viewBox="0 0 37 151"
    enable-background="new 0 0 61 167"
    xml:space="preserve"
    id="svg2"
-   inkscape:version="0.48.1 "
+   inkscape:version="0.48.1"
    shape-rendering="optimizeSpeed"
    sodipodi:docname="tools.svg">
 
@@ -54,11 +54,14 @@
    fit-margin-bottom="0"
    inkscape:zoom="8"
    inkscape:cx="21.501025"
-   inkscape:cy="54.380783"
+   inkscape:cy="29.380783"
    inkscape:window-x="1128"
    inkscape:window-y="61"
    inkscape:window-maximized="0"
-   inkscape:current-layer="Calque_2" />
+   inkscape:current-layer="Calque_2"
+   inkscape:showpageshadow="false"
+   borderlayer="false"
+   showborder="true" />
 <g
    id="Calque_1"
    display="none"
@@ -111,7 +114,7 @@
    id="path22"
    inkscape:connector-curvature="0" />
 	<polygon
-   points="15,106.083 15,117 32.833,117 32.833,116 16,116 16,107.083 32.833,107.083 32.833,106.083 "
+   points="16,116 16,107.083 32.833,107.083 32.833,106.083 15,106.083 15,117 32.833,117 32.833,116 "
    id="polygon24"
    transform="matrix(1,0,0,1.1946506,0,-20.649114)" />
 	<g
@@ -158,7 +161,7 @@
    inkscape:connector-curvature="0" />
 	</g>
 	<polygon
-   points="15.833,127.083 17.333,127.083 17.333,129.667 15.833,129.667 15.833,131.042 19.875,131.042 19.875,129.667 18.75,129.667 18.75,126.042 15.833,126.042 "
+   points="17.333,129.667 15.833,129.667 15.833,131.042 19.875,131.042 19.875,129.667 18.75,129.667 18.75,126.042 15.833,126.042 15.833,127.083 17.333,127.083 "
    id="polygon44" />
 	<rect
    x="17.125"

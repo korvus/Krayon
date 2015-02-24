@@ -2,7 +2,7 @@
 /* global self: false */
 
 (function(){
-  
+
   var Krayoncanvas = {};
   var Krayonconsole = {};
   var Krayonbrush = {};
@@ -84,10 +84,11 @@
   }
 
   function offset(elt){
-    var rect = elt.getBoundingClientRect(), bodyElt = document.body;
+    var rect = elt.getBoundingClientRect();
+    //var rect = elt.getBoundingClientRect(), bodyElt = document.body;
     return {
-        top: rect.top + bodyElt.scrollTop,
-        left: rect.left + bodyElt.scrollLeft
+        top: rect.top,
+        left: rect.left
     };
   }
 
@@ -235,11 +236,11 @@
       screenAreaNode.style.top = pntTo.y+"px";
       screenAreaNode.style.width = (pntTo.x-ptFromx)+"px";
       screenAreaNode.style.height = (ptFromy-pntTo.y)+"px";
-    }else if(pntTo.x < ptFromx && pntTo.y > ptFromy){//îf pointer is horizontaly lefter than the original click
+    }else if(pntTo.x < ptFromx && pntTo.y > ptFromy){//if pointer is horizontaly leftmost than the original click
       screenAreaNode.style.left = pntTo.x+"px";
       screenAreaNode.style.width = (ptFromx - pntTo.x)+"px";
       screenAreaNode.style.height = (pntTo.y-ptFromy)+"px";
-    }else{//if pointer is lefter and upper than the original point
+    }else{//if pointer is leftmost and upper than the original point
       screenAreaNode.style.top = pntTo.y+"px";
       screenAreaNode.style.left = pntTo.x+"px";
       screenAreaNode.style.width = (ptFromx-pntTo.x)+"px";
@@ -267,12 +268,19 @@
   function finishScreenArea(){
     currentCalcul = false;
     Krayonconsole.classList.remove("crosshairstyle");
-    var KrayonscreenSize = document.getElementById("KrayonsurfaceScreen");
+    let KrayonscreenSize = document.getElementById("KrayonsurfaceScreen");
     Krayonconsole.removeEventListener("mousemove", setScreenArea, false);
     Krayonconsole.removeEventListener("mouseup", finishScreenArea, false);
-    var screenPos = KrayonscreenSize.getBoundingClientRect();
-    var topS = screenPos.top+document.documentElement.scrollTop;
-    var leftS = screenPos.left+document.documentElement.scrollLeft;
+    let screenPos = KrayonscreenSize.getBoundingClientRect();
+    let topS, leftS = 0;
+    if(document.body.scrollTop){
+      topS = screenPos.top+document.body.scrollTop;
+      leftS = screenPos.left+document.body.scrollLeft;
+    }else{
+      topS = screenPos.top+document.documentElement.scrollTop;
+      leftS = screenPos.left+document.documentElement.scrollLeft;
+    }
+
     var widthS = KrayonscreenSize.offsetWidth;
     var heightS = KrayonscreenSize.offsetHeight;
     self.port.emit('takeascreen', {"to":topS,"le":leftS,"wi":widthS,"he":heightS});
@@ -286,7 +294,7 @@
 
     if(currentCalcul === true){
       Krayonconsole.addEventListener("mousemove", setScreenArea, false);
-      Krayonconsole.addEventListener("mouseup", finishScreenArea, true);
+      Krayonconsole.addEventListener("mouseup", finishScreenArea, false);
     }
 
   }
@@ -461,7 +469,7 @@
 
   function on_mousedown(e){
     if(createtextarea === false){drawing = true;}else{drawing = false;}
-    if (!drawing || nodraw === true) return;
+    if(!drawing || nodraw === true) return;
     lastpos = transform_event_coord(e);
     pos = lastpos;
 
@@ -594,7 +602,6 @@
     }
     if(!present){
       let head = document.head;
-      //console.log(document.getElementsByTagName(/HEAD/));
       let css = document.createElement('link');
       css.setAttribute('type','text/css');
       css.setAttribute('media','screen');
@@ -827,8 +834,15 @@
     //http://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
     
     var txtapos = KrayonpseudoTxtAra.getBoundingClientRect();
-    var topTxtarea = txtapos.top+document.documentElement.scrollTop;
-    var leftTxtarea = txtapos.left+document.documentElement.scrollLeft;
+    let topTxtarea = 0;
+    let leftTxtarea = 0;
+    if(document.body.scrollTop){
+      topTxtarea = txtapos.top+document.body.scrollTop;
+      leftTxtarea = txtapos.left+document.body.scrollLeft;
+    }else{
+      topTxtarea = txtapos.top+document.documentElement.scrollTop;
+      leftTxtarea = txtapos.left+document.documentElement.scrollLeft;
+    }
     if(5>sizeBrush){sizeTxt=12;}else{sizeTxt=sizeBrush;}
     var newTxtarea = document.createElement("textarea");
     newTxtarea.id = "thisActive";
