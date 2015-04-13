@@ -320,8 +320,6 @@
     backToPreviousActive();
   }
 
-
-
   function manageFlash(){
     // http://www.onlineaspect.com/2009/08/13/javascript_to_fix_wmode_parameters/
     let embeds = document.getElementsByTagName('embed');
