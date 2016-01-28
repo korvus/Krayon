@@ -77,7 +77,7 @@ html body .fwKrayonconsol .close:hover{background-color:#f5f22b;}
 
 html body .fwKrayonconsol #eraseall{cursor:pointer;}
 
-#thisActive{border:2px dotted #000;}
+#thisActive{border:2px dotted #000;resize:both;}
 #thisActive:focus{outline:20px solid rgba(255, 255, 0, 0.5);background-color:rgba(255,255,255,0.5);}
 
 
@@ -89,6 +89,6 @@ html body .fwKrayonconsol #eraseall{cursor:pointer;}
 a.legend{display:block;color:#000;margin:5px 0;}
 
 /* Textarea */
-#fwKrayoncanvas .Krayontxtarea{position:absolute;top:0;left:0;z-index:10;background:transparent;border:1px dotted #000;}
+#fwKrayoncanvas .Krayontxtarea{position:absolute;top:0;left:0;z-index:10;background:transparent;border:none;box-shadow:none !important;resize:none;}
 #KrayonsurfaceScreen{position:absolute;z-index:10;background:transparent;border:1px dotted #000;box-shadow:0 0 0 5000px rgba(0,0,0,0.5);}
 
