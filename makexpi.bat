@@ -1,1 +1,0 @@
-cfx xpi && wget --post-file=krayon.xpi http://127.0.0.1:8080/

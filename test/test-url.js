@@ -2,7 +2,6 @@
 var mUrl = require("../lib/url");
 
 exports["test convertToSlug"] = function(assert){
-	//assert.ok(mUrl.convertToSlug("Mozilla Firefox title test") == "title-test", "Function convert slup is not working properly");
 	assert.ok(mUrl.convertToSlug("Mozilla Firefox title test") == "title-test", "Function convert slup is not working properly");
 }
 

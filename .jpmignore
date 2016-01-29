@@ -1,0 +1,8 @@
+.git
+.gitignore
+.jpmignore
+*.xpi
+test
+website
+bookmarks-canvas.zip
+README.md
