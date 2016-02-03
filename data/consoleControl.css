@@ -5,8 +5,10 @@ html .fwKrayonconsol,
 html #fwKrayoncanvas{background:none;border:none;}
 
 html{/*position:relative !important;*/}
-html body #Krayonslider input{width:80px;margin:0;}
+html body #Krayonslider input{width:80px;margin:0;padding:0;border:none;}
 html body #fwKrayoncanvas{display:block;border:none;padding:0;position:absolute !important;top:0;left:0;z-index:2999999999;margin:0 !important;padding:0;box-sizing:content-box;height:75px;}
+html body #fwKrayoncanvas input,
+html body #fwKrayoncanvas textarea{box-shadow:none;font-size:inherit;margin:0;}
 html body .fwKrayonconsolWrap{display:table;border-collapse:separate;border-spacing:10px 0px;}	
 html body .Krayonhide .fwKrayonconsol{display:none;}
 html body #fwKrayoncanvas div{margin:0;border:none;padding:0;}
@@ -17,17 +19,19 @@ html body .fwKrayonconsol li>span,
 html body .fwKrayonconsol .part span{border:none;border-bottom:none !important;}
 
 html body .fwKrayonconsol .colorpicker{z-index:20004;}
-html body .fwKrayonconsol #krayonColorpicker{width:44px;}
+html body .fwKrayonconsol #krayonColorpicker{width:44px;padding:0;}
 html body #Krayonbrush{position:fixed;width:150px;height:150px;top:70px;left:0px;z-index:1;}
 html body iframe,
 html body object{z-index:0 !important;}
 html body #fwKrayoncanvas .cp{min-height:auto;}/* For google hangout */
-html body #fwKrayoncanvas .fwKrayonconsol .part{padding:5px;margin:0 5px 5px;vertical-align:middle;display:table-cell;border:1px solid #000;background:#fff;box-sizing:content-box;height:auto;}
+html body #fwKrayoncanvas .fwKrayonconsol .part{padding:5px;margin:0 5px 5px;vertical-align:middle;display:table-cell;border:1px solid #777;background:#fff;box-sizing:content-box;height:auto;opacity:0.7;}
+html body #fwKrayoncanvas .fwKrayonconsol .part:focus,
+html body #fwKrayoncanvas .fwKrayonconsol .part:hover{opacity:1;}
 html body .fwKrayonconsol .close,
 html body .fwKrayonconsol .part{background:#fff;}
 html body .fwKrayonconsol .close,
 html body .fwKrayonconsol .part{box-shadow:0px 0px 5px #888;position:static;width:auto;opacity:100;}
-html body .fwKrayonconsol .part .legend{font-size:10px;background:#fff;font-family:Arial;}
+html body .fwKrayonconsol .part .legend{font-size:10px;background:#fff;font-family:Arial;color:#000;}
 html body .fwKrayonconsol .p2 span:focus,
 html body .fwKrayonconsol .p2 span:hover{background:#f5f22b;}
 html body .fwKrayonconsol .p5 span{	background:url(i/tools.svg) 0 0 no-repeat;background-size:100%;}
@@ -84,7 +88,7 @@ html body .fwKrayonconsol #eraseall{cursor:pointer;}
 .crosshairstyle canvas{cursor:crosshair !important;}
 
 /* Slider */
-.fwKrayonconsol #slider{position:relative;width:90px;height:10px;background:#959595;margin:5px 5px 5px 5px;display:block;border:1px solid #000;border-radius:5px;cursor:pointer;overflow:visible;}
+.fwKrayonconsol #slider{position:relative;width:90px;height:10px;background:#959595;margin:5px 5px 5px 5px;display:block;border:1px solid #000;border-radius:0;cursor:pointer;overflow:visible;}
 
 a.legend{display:block;color:#000;margin:5px 0;}
 

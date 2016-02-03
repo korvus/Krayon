@@ -2,8 +2,6 @@
   "name": "krayon",
   "title": "Krayon",
   "id": "jid1-1269JvYFBgj1Wg@jetpack",
-  "icon": "data/i/icon-32.png",
-  "icon64": "data/i/icon-64.png",
   "description": "Allow to overwrite/draw on a webpage and to take a screenshot on it.",
   "author": "Simon Ertel",
   "translators": ["Simon Ertel","Iryna Lystopad","Pierre-Henri Pache","Fabian Beigang","Ruri Yamamoto","Emanuel Sousa","Mats Attnäs"],
