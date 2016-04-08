@@ -1,0 +1,14 @@
+{
+  "name": "krayon_task_runner",
+  "version": "1.0.0",
+  "description": "task runner for root file for krayon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "korvus",
+  "license": "ISC",
+  "dependencies": {
+    "svgo": "^0.6.4"
+  }
+}

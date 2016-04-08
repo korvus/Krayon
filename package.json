@@ -7,6 +7,9 @@
   "translators": ["Simon Ertel","Iryna Lystopad","Pierre-Henri Pache","Fabian Beigang","Ruri Yamamoto","Emanuel Sousa","Mats Attnäs"],
   "license": "MPL 2.0",
   "version": "0.3.2",
+  "devDependencies": {
+    "krayon_task_runner": "^0.0.1"
+  }
   "preferences": [{
     "name": "alignement",
     "type": "radio",

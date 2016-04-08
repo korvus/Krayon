@@ -6,7 +6,7 @@ html #fwKrayoncanvas{background:none;border:none;}
 
 html{/*position:relative !important;*/}
 html body #Krayonslider input{width:80px;margin:0;padding:0;border:none;}
-html body #fwKrayoncanvas{display:block;border:none;padding:0;position:absolute !important;top:0;left:0;z-index:2999999999;margin:0 !important;padding:0;box-sizing:content-box;height:75px;}
+html body #fwKrayoncanvas{display:block;border:none;padding:0;position:absolute !important;top:0;left:0;z-index:2999999999;margin:0 !important;padding:0;box-sizing:content-box;height:75px;overflow:visible;}
 html body #fwKrayoncanvas input,
 html body #fwKrayoncanvas textarea{box-shadow:none;font-size:inherit;margin:0;}
 html body .fwKrayonconsolWrap{display:table;border-collapse:separate;border-spacing:10px 0px;}	

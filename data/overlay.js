@@ -337,7 +337,7 @@
     // Echap
     if(e.keyCode === 27){
       eraseALL();
-    }    
+    }
   }
 
   function initEvents(){
