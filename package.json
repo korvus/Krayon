@@ -9,7 +9,7 @@
   "version": "0.3.2",
   "devDependencies": {
     "krayon_task_runner": "^0.0.1"
-  }
+  },
   "preferences": [{
     "name": "alignement",
     "type": "radio",
