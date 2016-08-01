@@ -9,7 +9,7 @@ html body #Krayonslider input{width:80px;margin:0;padding:0;border:none;}
 html body #fwKrayoncanvas{display:block;border:none;padding:0;position:absolute !important;top:0;left:0;z-index:2999999999;margin:0 !important;padding:0;box-sizing:content-box;height:75px;overflow:visible;}
 html body #fwKrayoncanvas input,
 html body #fwKrayoncanvas textarea{box-shadow:none;font-size:inherit;margin:0;}
-html body .fwKrayonconsolWrap{display:table;border-collapse:separate;border-spacing:10px 0px;}	
+html body .fwKrayonconsolWrap{display:table;border-collapse:separate;border-spacing:10px 0px;}
 html body .Krayonhide .fwKrayonconsol{display:none;}
 html body #fwKrayoncanvas div{margin:0;border:none;padding:0;}
 html body .fwKrayonconsol{position:fixed;height:75px;display:table-cell;left:0;z-index:20003;overflow:hidden;margin:0 !important;padding-left:0;color:#000;}
@@ -39,9 +39,9 @@ html body .fwKrayonconsol .p5 span{	background:url(i/tools.svg) 0 0 no-repeat;ba
 /* Pencil & gum */
 html body .fwKrayonconsol .p3 span{display:block;width:26px;height:25px;text-indent:-9999px;overflow:hidden;
 	background:url(i/tools.svg) 0 0 no-repeat;}
-html body .fwKrayonconsol #KrayonGum{background-position:10px 0px;border-bottom:1px dotted #fff;}
-html body .fwKrayonconsol .p3 span.pencil{background-position:10px -25px;}
-html body .fwKrayonconsol .p3 span.felt{background-position:-26px -25px;}
+html body .fwKrayonconsol #KrayonGum{background-position:8px 0px;border-bottom:1px dotted #fff;}
+html body .fwKrayonconsol .p3 span.pencil{background-position:8px -25px;}
+html body .fwKrayonconsol .p3 span.felt{background-position:-28px -25px;}
 html body .fwKrayonconsol .p3 span:hover,
 html body .fwKrayonconsol .p3 span:focus,
 html body .fwKrayonconsol .p3 span.active{background-color:#f5f22b;cursor:pointer;}
@@ -54,9 +54,9 @@ html body .fwKrayonconsol .p4 span.active,
 html body .fwKrayonconsol .p4 span:hover,
 html body .fwKrayonconsol .p4 span:focus{background-color:#f5f22b;cursor:pointer;}
 html body .fwKrayonconsol .p4 span.drawtrait{background-position:9px -73px;}
-html body .fwKrayonconsol .p4 span.drawsquarempty{background-position:8px -57px;}
+html body .fwKrayonconsol .p4 span.drawsquarempty{background-position:7px -58px;}
 html body .fwKrayonconsol .p4 span.drawsquare{background-position:-22px -73px;}
-html body .fwKrayonconsol .p4 span.drawcircle{background-position:-17px -55px;}
+html body .fwKrayonconsol .p4 span.drawcircle{background-position:-19px -55px;}
 
 /* Fonts */
 html body .fwKrayonconsol .p5 #entertext{float:left;width:23px;height:16px;margin:1px 0 4px;background-position:0px -95px;text-indent:-9999px;overflow:hidden;}
@@ -70,10 +70,10 @@ html body .fwKrayonconsol .p5 #KrayonArial{background-position:-16px -116px;}
 
 /* Screenshot */
 html body .fwKrayonconsol .p6 span{display:block;overflow:hidden;margin:5px 0;text-indent:-9999px;width:19px;height:16px;overflow:hidden;
-	background:url(i/tools.svg) 2px -131px no-repeat transparent;cursor:pointer;background-size:auto auto;}
+	background:url(i/tools.svg) 1px -131px no-repeat transparent;cursor:pointer;background-size:auto auto;}
 html body .fwKrayonconsol .p6 span:hover,
 html body .fwKrayonconsol .p6 .active{background-color:#f5f22b;}
-html body .fwKrayonconsol .p6 span#screenshot{background-position:-27px -135px;}
+html body .fwKrayonconsol .p6 span#screenshot{background-position:-28px -135px;}
 
 html body .fwKrayonconsol .colorpicker{z-index:3;}
 html body .fwKrayonconsol .close{float:left;margin-top:0;border:1px solid #000;border-top:none;padding:0 10px 5px;color:#000;background:#fff;font-size:18px;text-decoration:none;font-weight:bold;}
@@ -95,4 +95,3 @@ a.legend{display:block;color:#000;margin:5px 0;}
 /* Textarea */
 #fwKrayoncanvas .Krayontxtarea{position:absolute;top:0;left:0;z-index:10;background:transparent;border:none;box-shadow:none !important;resize:none;}
 #KrayonsurfaceScreen{position:absolute;z-index:10;background:transparent;border:1px dotted #000;box-shadow:0 0 0 5000px rgba(0,0,0,0.5);}
-

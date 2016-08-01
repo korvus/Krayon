@@ -3,4 +3,5 @@ website/r/
 website/*
 website/
 bookmarks-canvas.zip
-tools/node_modules/*
+node_modules
+*.DS_Store

@@ -4,56 +4,78 @@
   "id": "jid1-1269JvYFBgj1Wg@jetpack",
   "description": "Allow to overwrite/draw on a webpage and to take a screenshot on it.",
   "author": "Simon Ertel",
-  "translators": ["Simon Ertel","Iryna Lystopad","Pierre-Henri Pache","Fabian Beigang","Ruri Yamamoto","Emanuel Sousa","Mats Attnäs"],
+  "translators": [
+    "Simon Ertel",
+    "Iryna Lystopad",
+    "Pierre-Henri Pache",
+    "Fabian Beigang",
+    "Ruri Yamamoto",
+    "Emanuel Sousa",
+    "Mats Attnäs"
+  ],
   "license": "MPL 2.0",
   "version": "0.3.2",
-  "devDependencies": {
-    "krayon_task_runner": "^0.0.1"
+  "scripts": {
+    "svgo": "svgo tools/svg/tools.svg --output data/i/tools.svg"
   },
-  "preferences": [{
-    "name": "alignement",
-    "type": "radio",
-    "title": "Tools alignement",
-    "value": "T",
-    "options": [{
-    	"value": "T",
-    	"label": "top"
-    },{
-    	"value": "B",
-    	"label": "bottom"
-    }]
-  },{
-    "name": "stockageLocal",
-    "title": "Local hosting",
-    "description": "By defaut will be stocked in a folder call 'Crayon' on your desktop",
-    "type": "bool",
-    "value": true
-  },{
-    "type": "directory",
-    "name": "localDirectory",
-    "title": "Select your local directory for storing pic"
-  },{
-    "name": "stockageremote",
-    "title": "Remote hosting",
-    "description": "Allow you to send generated pics on a server. You must have abilities to manage a file request base64 encoded for receiving it and managing it.",
-    "type": "bool",
-    "value": false
-  },{
-    "name": "remoteDirectory",
-    "type": "string",
-    "title": "Enter an url where your script will be abble to receive post request.",
-    "value": ""
-  },{
-    "name": "paramName",
-    "type": "string",
-    "title": "This string will be the parameter name containing the pic name",
-    "description": "For example, if you use the value 'example', your server-side script will have to receive the value has $_POST['example'];",
-    "value": ""
-  },{
-    "name": "paramPic",
-    "type": "string",
-    "title": "This other string will be the parameter name containing the encoded pic in base64.",
-    "description": "For example, if you use the value 'example-pic', your server-side script will have to decrypt the value has base64_decode($_POST['example-pic'])",
-    "value": ""
-  }]
+  "preferences": [
+    {
+      "name": "alignement",
+      "type": "radio",
+      "title": "Tools alignement",
+      "value": "T",
+      "options": [
+        {
+          "value": "T",
+          "label": "top"
+        },
+        {
+          "value": "B",
+          "label": "bottom"
+        }
+      ]
+    },
+    {
+      "name": "stockageLocal",
+      "title": "Local hosting",
+      "description": "By defaut will be stocked in a folder call 'Crayon' on your desktop",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "type": "directory",
+      "name": "localDirectory",
+      "title": "Select your local directory for storing pic"
+    },
+    {
+      "name": "stockageremote",
+      "title": "Remote hosting",
+      "description": "Allow you to send generated pics on a server. You must have abilities to manage a file request base64 encoded for receiving it and managing it.",
+      "type": "bool",
+      "value": false
+    },
+    {
+      "name": "remoteDirectory",
+      "type": "string",
+      "title": "Enter an url where your script will be abble to receive post request.",
+      "value": ""
+    },
+    {
+      "name": "paramName",
+      "type": "string",
+      "title": "This string will be the parameter name containing the pic name",
+      "description": "For example, if you use the value 'example', your server-side script will have to receive the value has $_POST['example'];",
+      "value": ""
+    },
+    {
+      "name": "paramPic",
+      "type": "string",
+      "title": "This other string will be the parameter name containing the encoded pic in base64.",
+      "description": "For example, if you use the value 'example-pic', your server-side script will have to decrypt the value has base64_decode($_POST['example-pic'])",
+      "value": ""
+    }
+  ],
+  "devDependencies": {
+    "svgo": "^0.6.6"
+  }
 }
